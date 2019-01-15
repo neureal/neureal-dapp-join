@@ -1,5 +1,5 @@
 # neureal-donation-dapp
-Help the Neureal Foundation
+Neureal Foundation NFT for rewarding contributors
 
 ## Development Requirements
 
