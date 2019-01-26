@@ -1,4 +1,4 @@
-# neureal-donation-dapp
+# neureal-dapp-join
 Neureal Foundation NFT for rewarding contributors
 
 ## Development Requirements
@@ -20,7 +20,7 @@ Run all code tests
 `embark test`
 
 Deploy to public testnet (Rinkeby + IPFS)
-
-`embark upload testnet`
-
-(must be running `ipfs daemon` in seperate console)
+- must be running `ipfs daemon` in seperate console
+- `embark upload testnet`
+- `ipfs pin add -r <your-site-ipfs-hash>/`
+- access at https://cloudflare-ipfs.com/ipfs/\<your-site-ipfs-hash>
