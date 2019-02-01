@@ -5,7 +5,7 @@ const assert = require('assert');
 let accounts;
 config({
   contracts: {
-    // 'NeurealReward': { args: [100] }
+    // 'NeurealRewards': { args: [100] }
   },
   deployment: {
     accounts: [
@@ -21,23 +21,23 @@ config({
 // Print environment info
 console.log('web3.version: ', web3.version);
 
-const NeurealReward = require('Embark/contracts/NeurealReward');
-describe('NeurealReward', function () {
+const NeurealRewards = require('Embark/contracts/NeurealRewards');
+describe('NeurealRewards', function () {
   this.timeout(0);
 
   // it('should set constructor value', async function () {
-  //   let result = await NeurealReward.methods.storedData().call();
+  //   let result = await NeurealRewards.methods.storedData().call();
   //   assert.strictEqual(parseInt(result, 10), 100);
   // });
 
   // it('set storage value', async function () {
-  //   await NeurealReward.methods.set(150).send();
-  //   let result = await NeurealReward.methods.get().call();
+  //   await NeurealRewards.methods.set(150).send();
+  //   let result = await NeurealRewards.methods.get().call();
   //   assert.strictEqual(parseInt(result, 10), 150);
   // });
 
   it('should have account with balance', async function () {
-    let instance = await NeurealReward.deploy({ arguments: [accounts[1], accounts[2]] }).send();
+    // let instance = await NeurealRewards.deploy({ arguments: [accounts[1], accounts[2]] }).send();
 
     let balance = await web3.eth.getBalance(accounts[0]);
     console.log('Account 0 balance: ', web3.utils.fromWei(balance));
@@ -52,7 +52,7 @@ describe('NeurealReward', function () {
   // CREATION
 
   // it('creation: contract should deploy with less than 4.7 mil gas', async function () {
-  //   let instance = await NeurealReward.new(NEUREAL_ETH_WALLET_ADDRESS, WHITELIST_PROVIDER_ADDRESS, {from: CONTRACT_CREATOR_ADDRESS, gas: deployGas, gasPrice: deployGasPrice});
+  //   let instance = await NeurealRewards.new(NEUREAL_ETH_WALLET_ADDRESS, WHITELIST_PROVIDER_ADDRESS, {from: CONTRACT_CREATOR_ADDRESS, gas: deployGas, gasPrice: deployGasPrice});
 
   //   let receipt = await web3.eth.getTransactionReceipt(instance.transactionHash);
   //   console.log('Contract creation (gasUsed): ', receipt.gasUsed);
@@ -61,13 +61,13 @@ describe('NeurealReward', function () {
 
   // it('creation: sending ether with contract deployment should revert', async function () {
   //   try {
-  //     var result = await NeurealReward.new({from: CONTRACT_CREATOR_ADDRESS, value: fromETHtoWeiBN(0.00001), gas: deployGas, gasPrice: deployGasPrice});
+  //     var result = await NeurealRewards.new({from: CONTRACT_CREATOR_ADDRESS, value: fromETHtoWeiBN(0.00001), gas: deployGas, gasPrice: deployGasPrice});
   //   } catch (err) { } // console.log(err.message); }
   //   assert.isUndefined(result);
   // });
 
   it('creation: test correct setting of state variables', async function () {
-    let instance = await NeurealReward.deploy().send();
+    let instance = await NeurealRewards.deploy().send();
 
     // let OPENING_RATE = await instance.methods.OPENING_RATE().call();
     // console.log('OPENING_RATE: ', OPENING_RATE);
@@ -79,12 +79,12 @@ describe('NeurealReward', function () {
   });
 
   it('creation: test correct setting of vanity information', async function () {
-    let instance = await NeurealReward.deploy().send();
+    let instance = await NeurealRewards.deploy().send();
 
     let name = await instance.methods.name().call();
     assert.strictEqual(name, 'Neureal Rewards');
 
-    let symbol = await instance.methods.symbol().call();;
+    let symbol = await instance.methods.symbol().call();
     assert.strictEqual(symbol, 'NEUR');
   });
 });

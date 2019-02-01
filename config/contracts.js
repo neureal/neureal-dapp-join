@@ -84,7 +84,7 @@ module.exports = {
   // used with 'embark run testnet'
   testnet: {
     contracts: {
-      'NeurealReward': { deploy: false }
+      'NeurealRewards': { deploy: false }
     },
     deployment: {
       // accounts: [
@@ -106,7 +106,7 @@ module.exports = {
   // used with 'embark run livenet'
   livenet: {
     contracts: {
-      'NeurealReward': { deploy: false }
+      'NeurealRewards': { deploy: false }
     },
     deployment: {
       // TODO add Ledger support

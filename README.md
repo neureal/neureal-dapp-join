@@ -1,6 +1,16 @@
 # neureal-dapp-join
 Neureal Foundation NFT for rewarding contributors
 
+Compatible with OpenSea https://opensea.io/
+
+## Usage
+
+`https://cloudflare-ipfs.com/ipfs/<dapp-version>/?contract=<minted-contract-address>&ipfs=<backup-ipfs-gateway>`
+
+Example
+
+https://cloudflare-ipfs.com/ipfs/QmcMuQQqhL92p8YajC2NDEmcrApVJaCtsYWqnbmaVxistE/?contract=0x50110689F821af743f855D6D03408a1C1d9db590
+
 ## Development Requirements
 
 https://embark.status.im/docs/installation.html
@@ -24,3 +34,4 @@ Deploy to public testnet (Rinkeby + IPFS)
 - `embark upload testnet`
 - `ipfs pin add -r <your-site-ipfs-hash>/`
 - access at https://cloudflare-ipfs.com/ipfs/\<your-site-ipfs-hash>
+

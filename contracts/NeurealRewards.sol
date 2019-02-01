@@ -4,11 +4,11 @@ import "openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol";
 import "openzeppelin-solidity/contracts/token/ERC721/ERC721MetadataMintable.sol";
 
 /**
- * @title NeurealReward
- * Neureal Rewards - Neureal Foundation NFT for rewarding contributors
+ * @title NeurealRewards
+ * Neureal NeurealRewards - Neureal Foundation NFT for rewarding contributors
  * @dev 
  */
-contract NeurealReward is ERC721Full, ERC721MetadataMintable {
+contract NeurealRewards is ERC721Full, ERC721MetadataMintable {
     using SafeMath for uint256;
     // using Address for address;
 

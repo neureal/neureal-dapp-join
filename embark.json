@@ -1,11 +1,18 @@
 {
   "contracts": ["contracts/**"],
   "app": {
-    "static/css/app.css": ["app/css/**"],
-    "static/js/app.js": ["app/js/index.js"],
+    "robots.txt": "app/robots.txt",
+    "favicon.ico": "app/favicon.ico",
     "static/images/": ["app/images/**"],
+    "static/css/w3.css": ["app/css/w3.css"],
+
     "index.html": "app/index.html",
-    "robots.txt": "app/robots.txt"
+    "static/css/index.css": ["app/css/index.css"],
+    "static/js/index.js": ["app/js/index.js"],
+
+    "admin.html": "app/admin.html",
+    "static/css/admin.css": ["app/css/admin.css"],
+    "static/js/admin.js": ["app/js/admin.js"]
   },
   "buildDir": "dist/",
   "config": {
