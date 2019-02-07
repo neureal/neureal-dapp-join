@@ -1,3 +1,123 @@
-/* .page-fix-bkg-width{max-width:1920px}
-.page-fix-move-menu{bottom:-16px}
-.page-fix-title-wrap{white-space:nowrap} */
+/* external */
+a {
+	text-decoration: none;
+}
+
+.w3-bar-item img {
+	height: 45px;
+	width: 100%;
+	outline: none;
+}
+
+.w3-bar-item img:active {
+	outline: none;
+}
+
+/* fonts */
+@font-face {
+	font-family: 'Montserrat';
+	font-style: light;
+	font-weight: 300;
+	src: local('Montserrat'), url('/static/images/fonts/Montserrat-Light.ttf') format('ttf');
+}
+@font-face {
+	font-family: 'Montserrat';
+	font-style: regular;
+	font-weight: 400;
+	src: local('Montserrat'), url('/static/images/fonts/Montserrat-Regular.ttf') format('ttf');
+}
+@font-face {
+	font-family: 'Montserrat';
+	font-style: medium;
+	font-weight: 500;
+	src: local('Montserrat'), url('/static/images/fonts/Montserrat-Medium.ttf') format('ttf');
+}
+
+.w3-montserrat-small {
+	font-family: 'Montserrat', sans-serif;
+	font-style: light;
+}
+
+.w3-montserrat {
+	font-family: 'Montserrat', sans-serif;
+	font-style: regular;
+}
+
+.w3-montserrat-bold {
+	font-family: 'Montserrat', sans-serif;
+	font-style: medium;
+}
+
+.w3-montserrat-large {
+	font-family: 'Montserrat', sans-serif;
+	font-size: 32px;
+	font-weight: 500;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+}
+
+/* buttons */
+.btn-join {
+	padding: 15px;
+	transition: all .1s ease-in-out;
+	font-size: 18px;
+	font-style: medium;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+}
+
+.theme-orange-light {
+	color: #fff !important;
+	/* background-color: #4cd1ff !important; */
+	background-color: #ffb44c !important;
+}
+
+/* page elements */
+.progress-bar {
+	width:72%;
+	background: linear-gradient(-90deg, #08e0e0, #0fc0fb);
+}
+
+.banner {
+	position: relative;
+	background: url('/static/images/sale-banner.svg');
+	background-size: cover;
+	width: 100vw;
+	padding-bottom: 16%;
+	margin: 0;
+  margin-top: 61px;
+  /* white-space: nowrap; */
+}
+
+.banner-body {
+	margin-top: 350px;
+}
+
+.logo-size {
+	margin-top: 50px;
+	width: 250px;
+	max-height: 100%;
+}
+
+.status {
+	position: relative;
+	top: -40px;
+	width: 66.66%;
+	margin-right: 16.67%;
+	margin-left: 16.67%;
+	margin-top: 0px;
+}
+
+.video-neureal {
+	width: 100%;
+	box-shadow: 2px 5px 16px rgba(0, 0, 0, 0.182);
+	margin-bottom: 25px;
+}
+
+.social-icons-footer {
+	color: rgb(0, 0, 0);
+	height: 35px;
+	margin: 7.5px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
