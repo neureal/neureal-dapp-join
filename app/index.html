@@ -8,7 +8,7 @@
   <body>
     
     <div id="menu" class="w3-top">
-      <div class="w3-bar w3-white w3-wide w3-card">
+      <div class="w3-bar w3-card w3-white w3-wide">
         <a href="#banner" class="w3-bar-item">
           <img src="/static/images/neureal-logo-light-blue.svg" alt="Home">
         </a>
@@ -25,33 +25,35 @@
       </div> -->
     </div>
 
-    <div id="banner" class="w3-container w3-animate-opacity banner">
+    <div id="banner" class="w3-display-container w3-animate-opacity banner">
       <div class="w3-container">
         <span class="w3-center w3-padding-large w3-display-topmiddle">
           <img class="logo-size" src="/static/images/neureal-logo-icon-white.svg" alt="Neureal">
         </span>
       </div>
-      <div class="w3-container w3-text-white w3-center banner-body">
-        <div>
-          <h3 class="w3-montserrat-large">Purpose</h3>
-        </div>
-        <div class="w3-montserrat-small">Description of the purpose. Somthing need to go here to describe in more detail.</div>
-        <div class="w3-montserrat-small">
-    Contribute $25
-    Reward
-    Contribute $100
-    Reward
-    Contribute $1000
-    Reward
+      <div class="w3-container w3-text-white w3-montserrat w3-center banner-buttons">
+        <div class="w3-panel">
+          <button class="w3-button w3-round-large theme-orange-light w3-montserrat-bold btn-join">Contribute $25</button>
+          <div class="w3-container">Reward: Some Reward</div>
         </div>
         <div class="w3-panel">
-          <button class="w3-button w3-round-large w3-montserrat-bold theme-orange-light btn-join">Contribute</button>
+          <button class="w3-button w3-round-large theme-orange-light w3-montserrat-bold btn-join">Contribute $100</button>
+          <div class="w3-container">Reward: Some Reward</div>
         </div>
+        <div class="w3-panel">
+          <button class="w3-button w3-round-large theme-orange-light w3-montserrat-bold btn-join">Contribute $1000</button>
+          <div class="w3-container">Reward: Some Reward</div>
+        </div>
+      </div>
+      <div class="w3-container w3-text-white w3-center banner-body">
+        <div class="w3-panel w3-montserrat-large">Purpose</div>
+        <div class="w3-panel w3-montserrat-small">Description of the purpose. Somthing need to go here to describe in more detail.</div>
+        <div class="w3-panel w3-montserrat-small">More description.</div>
       </div>
     </div>
 
-    <div id="status" class="status">
-      <div class="w3-card-4 w3-round-xlarge w3-animate-opacity w3-white">
+    <div id="status" class="w3-display-container status">
+      <div class="w3-content w3-card-4 w3-round-xlarge w3-animate-opacity w3-white">
         <div class="w3-container">
           <div class="w3-left w3-text-dark-gray w3-montserrat-bold"><p>ETH RAISED</p></div>
           <div id="text_total_eth" class="w3-right w3-text-dark-gray w3-montserrat-bold"><p>LIVE DATA</p></div>
