@@ -37,10 +37,10 @@ contract NeurealRewards is ERC721Full, ERC721MetadataMintable {
     // TODO look at Status plugin to see how to put public dapp on Status on phone
     // TODO add this in with reward amount levels that auto mint for public dapp
     // /* (called whenever someone tries to send ether to this contract) */
-    // function() external payable {
-    //     require(msg.value != 0, ""); // Stop spamming, contract only calls, etc
-    //     require(msg.sender != address(0), ""); // Prevent transfer to 0x0 address
-    //     require(msg.sender != address(this), ""); // Prevent calls from this.transfer(this)
-    //     // assert(address(this).balance >= msg.value, ""); // this.balance gets updated with msg.value before this function starts 
-    // }
+    function() external payable {
+        require(msg.value != 0, ""); // Stop spamming, contract only calls, etc
+        require(msg.sender != address(0), ""); // Prevent transfer to 0x0 address
+        require(msg.sender != address(this), ""); // Prevent calls from this.transfer(this)
+        // assert(address(this).balance >= msg.value, ""); // this.balance gets updated with msg.value before this function starts 
+    }
 }

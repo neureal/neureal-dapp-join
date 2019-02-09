@@ -6,108 +6,128 @@
     <script src="static/js/index.js"></script>
   </head>
   <body>
-    
-    <div id="menu" class="w3-top">
-      <div class="w3-bar w3-card w3-white w3-wide">
-        <a href="#banner" class="w3-bar-item">
-          <img src="/static/images/neureal-logo-light-blue.svg" alt="Home">
-        </a>
-        <!-- <a href="#video" class="w3-bar-item w3-montserrat-bold">VIDEO</a> -->
-      </div>
-      <div id="progress" class="w3-light-grey w3-round-xlarge w3-hide">
-        <div class="w3-container w3-light-blue w3-round-xlarge progress-bar">
-          <div class="w3-text-white w3-tiny w3-center">PROCESSING 72%</div>
+    <div id="modal_terms" class="w3-modal w3-show">
+      <div class="w3-modal-content w3-card-4 w3-round-xlarge w3-padding">
+        <div class="w3-panel w3-center w3-montserrat-large">Terms of Service</div>
+        <div class="w3-panel w3-montserrat modal-max-height">
+            Neureal Foundation Donation System and Software is based on experimental blockchain and smart contract technology which carries significant and inherent operational, technological, financial and regulatory risks. It cannot be excluded that, as a result of defects, technical bugs, network forks, intentional attacks of third parties, acts of God, unscheduled maintenance, or other events, the Dai System and Software experiences disruption, suspension or termination, and/or the value of Dai over time may experience extreme volatility or depreciate in full, as well as ETH may be lost. Attacks by hackers on the Dai System and Software, smart contracts or other software used may have unforeseeable consequences, including loss of Dai and/or ETH. Also, market conditions may change and thus no market liquidity is guaranteed. All smart contracts are ultimately controlled by the network of miners. There are also other risks associated with use of the Dai System and Software, including those that cannot be anticipated and by clicking Accept below you declare and confirm that you understand the risks of using experimental public blockchain technology.
+
+            The Dai System and Software and all of the matters set forth in the White Paper are new and untested. Use of the Dai System and Software requires deep knowledge of smart contract technology and related fields. Its use without proper skills and preparation may result in unintended consequences. Source code of the Dai System and Software as well as information on security reviews conducted so far is available here: https://medium.com/@MakerDAO/single-collateral-dai-source-code-and-security-reviews-523e1a01a3c8.
+            All users of the Dai System and Software expressly acknowledge, understands and agrees that the user is using the Dai System and Software at the user’s sole risk and that the Dai System and Software are each provided, used and acquired on an “AS IS” and on an “AS AVAILABLE” basis without representations, warranties, promises or guarantees whatsoever of any kind by any entity and the user shall rely on its own examination and investigation thereof.
+            
+            By clicking Accept, you confirm that you have read all the above important information, that you understand them and that you agree to them.            
         </div>
-      </div>
-      <div id="error" class="w3-pale-red w3-leftbar w3-hide">
-          <div class="w3-container">Somthing Went Wrong</div>
-          <div id="text_description" class="w3-container w3-tiny">Unknown Error</div>
+        <footer class="w3-panel"><button id="btn_terms" class="w3-btn w3-block w3-border w3-border-blue w3-text-blue w3-montserrat-bold">ACCEPT</button></footer>
       </div>
     </div>
 
-    <div id="banner" class="w3-display-container w3-animate-opacity banner">
-      <div class="w3-container">
-        <span class="w3-center w3-padding-large w3-display-topmiddle">
-          <img class="logo-size" src="/static/images/neureal-logo-icon-white.svg" alt="Neureal">
-        </span>
-      </div>
-      <div class="w3-content w3-text-white w3-montserrat banner-buttons">
-        <div class="w3-row w3-center">
-          <div class="w3-panel w3-third">
-            <button class="w3-button w3-round-large theme-orange-light w3-montserrat-bold btn-join">Contribute $25</button>
-            <div class="w3-container">Reward: Some Reward</div>
-          </div>
-          <div class="w3-panel w3-third">
-            <button class="w3-button w3-round-large theme-orange-light w3-montserrat-bold btn-join">Contribute $100</button>
-            <div class="w3-container">Reward: Some Reward</div>
-          </div>
-          <div class="w3-panel w3-third">
-            <button class="w3-button w3-round-large theme-orange-light w3-montserrat-bold btn-join">Contribute $1000</button>
-            <div class="w3-container">Reward: Some Reward</div>
+    <span id="span_sale" class="">
+      <div id="menu" class="w3-top">
+        <div class="w3-bar w3-card w3-white w3-wide">
+          <a href="#banner" class="w3-bar-item">
+            <img src="static/images/neureal-logo-light-blue.svg" alt="Home">
+          </a>
+          <!-- <a href="#video" class="w3-bar-item w3-montserrat-bold">VIDEO</a> -->
+        </div>
+        <div id="progress" class="w3-light-grey w3-round-xlarge w3-hide">
+          <div class="w3-container w3-light-blue w3-round-xlarge progress-bar">
+            <div class="w3-text-white w3-tiny w3-center">PROCESSING 72%</div>
           </div>
         </div>
+        <div id="div_error" class="w3-pale-red w3-leftbar w3-hide">
+            <div class="w3-container">Somthing Went Wrong</div>
+            <div id="text_description" class="w3-container w3-tiny">Unknown Error</div>
+        </div>
       </div>
-      <div class="w3-container w3-text-white w3-center banner-body">
-        <div class="w3-panel w3-montserrat-large">Purpose</div>
-        <div class="w3-panel w3-montserrat-small">Description of the purpose. Somthing need to go here to describe in more detail.</div>
-        <div class="w3-panel w3-montserrat-small">More description.</div>
-      </div>
-    </div>
 
-    <div id="status" class="w3-display-container status">
-      <div class="w3-content w3-card-4 w3-round-xlarge w3-animate-opacity w3-white">
+      <div id="banner" class="w3-display-container w3-animate-opacity banner">
         <div class="w3-container">
-          <div class="w3-left w3-text-dark-gray w3-montserrat-bold"><p>ETH RAISED</p></div>
-          <div id="text_total_eth" class="w3-right w3-text-dark-gray w3-montserrat-bold"><p>LIVE DATA</p></div>
+          <span class="w3-center w3-padding-large w3-display-topmiddle">
+            <img class="logo-size" src="static/images/neureal-logo-icon-white.svg" alt="Neureal">
+          </span>
         </div>
-        <div class="w3-container">
-          <div class="w3-container w3-border-top"></div>
-          <div class="w3-left w3-text-orange w3-montserrat-bold"><p>0 ETH</p></div>
-          <div class="w3-right w3-text-orange w3-montserrat-bold"><p>200,000 ETH</p></div>
+        <div class="w3-content w3-text-white w3-montserrat banner-rewards">
+          <div class="w3-row w3-center">
+            <div class="w3-panel w3-third">
+              <div id="btn-send-01" class="w3-round-large theme-orange-light w3-montserrat-bold btn-join">Contribute $25</div>
+              <div class="w3-container">Reward: Some Reward</div>
+            </div>
+            <div class="w3-panel w3-third">
+              <div id="btn-send-02" class="w3-round-large theme-orange-light w3-montserrat-bold btn-join">Contribute $100</div>
+              <div class="w3-container">Reward: Some Reward</div>
+            </div>
+            <div class="w3-panel w3-third">
+              <div id="btn-send-03" class="w3-round-large theme-orange-light w3-montserrat-bold btn-join">Contribute $1000</div>
+              <div class="w3-container">Reward: Some Reward</div>
+            </div>
+          </div>
+        </div>
+        <div class="w3-container w3-text-white w3-center">
+          <div id="contract-address" class="w3-panel w3-montserrat-large">0x0172294c5E37D7Bb0F4b7A9368dFA6bFA74700c5</div>
+          <div class="w3-panel w3-montserrat-small">Send ETH or DAI to this address</div>
+        </div>
+        <div class="w3-container w3-text-white w3-center">
+          <div class="w3-panel w3-montserrat-large">Purpose</div>
+          <div class="w3-panel w3-montserrat-small">Description of the purpose. Somthing need to go here to describe in more detail.</div>
+          <div class="w3-panel w3-montserrat-small">More description.</div>
         </div>
       </div>
-    </div>
 
-    <div id="video" class="w3-content w3-padding-large">
-      <div class="w3-container w3-margin-top">
-        <video class="video-neureal" controls>
-          <source src="/static/images/video/neureal-video.mp4" type="video/mp4" />Your browser does not support this video.
-        </video>
+      <div id="status" class="w3-display-container status">
+        <div class="w3-content w3-card-4 w3-round-xlarge w3-animate-opacity w3-white">
+          <div class="w3-container">
+            <div class="w3-left w3-text-dark-gray w3-montserrat-bold"><p>ETH RAISED</p></div>
+            <div id="text_total_eth" class="w3-right w3-text-dark-gray w3-montserrat-bold"><p>LIVE DATA</p></div>
+          </div>
+          <div class="w3-container">
+            <div class="w3-container w3-border-top"></div>
+            <div class="w3-left w3-text-orange w3-montserrat-bold"><p>0 ETH</p></div>
+            <div class="w3-right w3-text-orange w3-montserrat-bold"><p>200,000 ETH</p></div>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <div id="info" class="w3-content w3-padding-large">
-      <div class="w3-row">
-        <div class="w3-half w3-container w3-margin-top">
-          <a href="#social" class="w3-btn w3-block w3-border w3-border-blue w3-text-blue w3-montserrat-bold">FAQ</a>
+      <!-- <div id="video" class="w3-content w3-padding-large">
+        <div class="w3-container w3-margin-top">
+          <video class="video-neureal" controls>
+            <source src="static/images/video/neureal-video.mp4" type="video/mp4" />Your browser does not support this video.
+          </video>
         </div>
-        <div class="w3-half w3-container w3-margin-top">
-          <a href="https://neureal.net" target="_blank" class="w3-btn w3-block w3-border w3-border-blue w3-text-blue w3-montserrat-bold">More Info</a>
+      </div> -->
+
+      <div id="info" class="w3-content w3-padding-large">
+        <div class="w3-row">
+          <div class="w3-half w3-container w3-margin-top">
+            <a href="#social" class="w3-btn w3-block w3-border w3-border-blue w3-text-blue w3-montserrat-bold">FAQ</a>
+          </div>
+          <div class="w3-half w3-container w3-margin-top">
+            <a href="https://neureal.net" target="_blank" class="w3-btn w3-block w3-border w3-border-blue w3-text-blue w3-montserrat-bold">More Info</a>
+          </div>
         </div>
       </div>
-    </div>
+    </span>
 
     <footer id="social" class="w3-container w3-padding-32 w3-center">
       <a href="https://github.com/neureal" target="_blank">
-        <img class="social-icons-footer" src="/static/images/icons/social-github.svg" fill="black" alt="github">
+        <img class="social-icons-footer" src="static/images/icons/social-github.svg" fill="black" alt="github">
       </a>
       <a href="https://www.facebook.com/NeurealAI" target="_blank">
-        <img class="social-icons-footer" src="/static/images/icons/social-facebook.svg" fill="black" alt="facebook">
+        <img class="social-icons-footer" src="static/images/icons/social-facebook.svg" fill="black" alt="facebook">
       </a>
       <a href="https://www.reddit.com/r/Neureal/" target="_blank">
-        <img class="social-icons-footer" src="/static/images/icons/social-reddit.svg" fill="black" alt="reddit">
+        <img class="social-icons-footer" src="static/images/icons/social-reddit.svg" fill="black" alt="reddit">
       </a>
       <a href="https://twitter.com/neurealai" target="_blank">
-        <img class="social-icons-footer" src="/static/images/icons/social-twitter.svg" fill="black" alt="twitter">
+        <img class="social-icons-footer" src="static/images/icons/social-twitter.svg" fill="black" alt="twitter">
       </a>
       <a href="https://www.linkedin.com/company/neureal/" target="_blank">
-        <img class="social-icons-footer" src="/static/images/icons/social-linkedin.svg" fill="black" alt="linkedin">
+        <img class="social-icons-footer" src="static/images/icons/social-linkedin.svg" fill="black" alt="linkedin">
       </a>
       <a href="https://www.youtube.com/channel/UCkebLOaWk9vplZ6ZWLcbvtA" target="_blank">
-        <img class="social-icons-footer" src="/static/images/icons/social-youtube.svg" fill="black" alt="youtube">
+        <img class="social-icons-footer" src="static/images/icons/social-youtube.svg" fill="black" alt="youtube">
       </a>
       <a href="https://t.me/joinchat/C8JtFkMMkD2O6skOEaFn7Q" target="_blank">
-        <img class="social-icons-footer" src="/static/images/icons/social-telegram.png" fill="black" alt="telegram">
+        <img class="social-icons-footer" src="static/images/icons/social-telegram.png" fill="black" alt="telegram">
       </a>
     </footer>
   </body>

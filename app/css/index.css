@@ -18,19 +18,19 @@ a {
 	font-family: 'Montserrat';
 	font-style: light;
 	font-weight: 300;
-	src: local('Montserrat'), url('/static/images/fonts/Montserrat-Light.ttf') format('ttf');
+	src: local('Montserrat'), url('../images/fonts/Montserrat-Light.ttf') format('ttf');
 }
 @font-face {
 	font-family: 'Montserrat';
 	font-style: regular;
 	font-weight: 400;
-	src: local('Montserrat'), url('/static/images/fonts/Montserrat-Regular.ttf') format('ttf');
+	src: local('Montserrat'), url('../images/fonts/Montserrat-Regular.ttf') format('ttf');
 }
 @font-face {
 	font-family: 'Montserrat';
 	font-style: medium;
 	font-weight: 500;
-	src: local('Montserrat'), url('/static/images/fonts/Montserrat-Medium.ttf') format('ttf');
+	src: local('Montserrat'), url('../images/fonts/Montserrat-Medium.ttf') format('ttf');
 }
 
 .w3-montserrat-small {
@@ -53,7 +53,7 @@ a {
 	font-size: 32px;
 	font-weight: 500;
 	letter-spacing: 2px;
-	text-transform: uppercase;
+	/* text-transform: uppercase; */
 }
 
 /* buttons */
@@ -78,8 +78,13 @@ a {
 }
 
 /* page elements */
+.modal-max-height {
+	max-height: 300px;
+	overflow-y: auto;
+}
+
 .banner {
-	background: url('/static/images/sale-banner.svg');
+	background: url('../images/sale-banner.svg');
 	background-size: cover;
 	width: 100vw;
   padding-bottom: 72px;
@@ -87,7 +92,7 @@ a {
   margin-top: 60px;
 }
 
-.banner-buttons {
+.banner-rewards {
 	margin-top: 250px;
 }
 
