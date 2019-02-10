@@ -1,11 +1,24 @@
 module.exports = {
   // default applies to all environments
   default: {
+    // Automatically call `ethereum.enable` if true.
+    // If false, the following code must run before sending any transaction: `await EmbarkJS.enableEthereum();`
+    // Default value is true.
+    // dappAutoEnable: false, // TODO not working in Embark 3.2.7
+
     // order of connections the dapp should connect to
     dappConnection: [
       '$WEB3' // uses pre existing web3 object if available (e.g in Mist)
     ],
     gas: 'auto',
+    // Strategy for the deployment of the contracts:
+    // - implicit will try to deploy all the contracts located inside the contracts directory
+    //            or the directory configured for the location of the contracts. This is default one
+    //            when not specified
+    // - explicit will only attempt to deploy the contracts that are explicity specified inside the
+    //            contracts section.
+    // strategy: 'explicit', // TODO not working in Embark 3.2.7
+
     contracts: {
       'SafeMath': { deploy: false },
       'Address': { deploy: false },
@@ -31,9 +44,10 @@ module.exports = {
       //   gasPrice: 5,
       // },
     },
-    // Blockchain node to deploy the contracts
+    // // Blockchain node to deploy the contracts
     // deployment: {
     //   // Accounts to use instead of the default account to populate your wallet
+    //   // The order here corresponds to the order of `web3.eth.getAccounts`, so the first one is the `defaultAccount`
     //   accounts: [
     //     {
     //       privateKey: 'your_private_key',
@@ -49,6 +63,9 @@ module.exports = {
     //       addressIndex: '0', // Optionnal. The index to start getting the address
     //       numAddresses: '1', // Optionnal. The number of addresses to get
     //       hdpath: 'm/44\'/60\'/0\'/0/' // Optionnal. HD derivation path: m/44'/60'/0'/0
+    //     },
+    //     {
+    //       nodeAccounts: true // Uses the Ethereum node's accounts
     //     }
     //   ]
     // },
