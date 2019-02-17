@@ -14,8 +14,8 @@ https://cloudflare-ipfs.com/ipfs/QmcMuQQqhL92p8YajC2NDEmcrApVJaCtsYWqnbmaVxistE/
 ## Development Requirements
 
 https://embark.status.im/docs/installation.html
-- install the latest stable, ie `npm -g install embark`
-- make sure to install local IPFS
+- install the latest, ie `npm -g install embark@next`
+- make sure to install local Geth and IPFS
 
 `npm install`
 
