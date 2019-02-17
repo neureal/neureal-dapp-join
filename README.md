@@ -29,6 +29,10 @@ Run all code tests
 
 `embark test`
 
+Run on Rinkeby with local webserver
+
+`embark run testnet`
+
 Deploy to public testnet (Rinkeby + IPFS)
 - must be running `ipfs daemon` in seperate console
 - `embark upload testnet`
