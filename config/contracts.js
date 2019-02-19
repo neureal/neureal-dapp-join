@@ -50,6 +50,9 @@ module.exports = {
     //   // The order here corresponds to the order of `web3.eth.getAccounts`, so the first one is the `defaultAccount`
     //   accounts: [
     //     {
+    //       nodeAccounts: true // Uses the Ethereum node's accounts
+    //     },
+    //     {
     //       privateKey: 'your_private_key',
     //       balance: '5 ether'  // You can set the balance of the account in the dev environment
     //                           // Balances are in Wei, but you can specify the unit with its name
@@ -63,17 +66,14 @@ module.exports = {
     //       addressIndex: '0', // Optionnal. The index to start getting the address
     //       numAddresses: '1', // Optionnal. The number of addresses to get
     //       hdpath: 'm/44\'/60\'/0\'/0/' // Optionnal. HD derivation path: m/44'/60'/0'/0
-    //     },
-    //     {
-    //       nodeAccounts: true // Uses the Ethereum node's accounts
     //     }
     //   ]
     // },
     versions: {
-      'web3': '1.0.0-beta',
+      'web3': '1.0.0-beta', // = '1.0.0-beta.34'
       // TODO 'web3': '1.0.0-beta.37',
-      'solc': '0.4.25'
-      // TODO 'solc': '0.5.2'
+      'solc': '0.5.0'
+      // TODO 'solc': '0.5.4'
     }
   },
 
@@ -87,8 +87,8 @@ module.exports = {
     ],
     deployment: {
       host: 'localhost', // Host of the blockchain node
-      port: 8545, // Port of the blockchain node
-      type: 'rpc' // Type of connection (ws or rpc)
+      port: 8546, // Port of the blockchain node
+      type: 'ws' // Type of connection (ws or rpc)
     }
   },
 
@@ -115,7 +115,7 @@ module.exports = {
       host: 'rinkeby.infura.io/f671218d5de443d797cc94560bde246b',
       port: false,
       protocol: 'https',
-      type: 'rpc'
+      type: 'rpc' // TODO does Infura websocket (ws) work here?
     }
   },
 
@@ -130,7 +130,7 @@ module.exports = {
       host: 'mainnet.infura.io/f671218d5de443d797cc94560bde246b',
       port: false,
       protocol: 'https',
-      type: 'rpc'
+      type: 'rpc' // TODO does Infura websocket (ws) work here?
     }
   }
 

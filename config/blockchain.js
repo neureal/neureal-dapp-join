@@ -2,11 +2,39 @@ module.exports = {
   // applies to all environments
   default: {
     enabled: true
+    // // Accounts to use as node accounts
+    // // The order here corresponds to the order of `web3.eth.getAccounts`, so the first one is the `defaultAccount`
+    // accounts: [
+    //   {
+    //     nodeAccounts: true, // Uses the Ethereum node's accounts
+    //     numAddresses: '1', // Number of addresses/accounts (defaults to 1)
+    //     password: 'config/development/devpassword' // Password file for the accounts
+    //   },
+    //   // Below are additional accounts that will count as `nodeAccounts` in the `deployment` section of your contract config
+    //   // Those will not be unlocked in the node itself
+    //   {
+    //     privateKey: 'your_private_key',
+    //     balance: '5 ether'  // You can set the balance of the account in the dev environment
+    //                         // Balances are in Wei, but you can specify the unit with its name
+    //   },
+    //   {
+    //     privateKeyFile: 'path/to/file', // Either a keystore or a list of keys, separated by , or ;
+    //     password: 'passwordForTheKeystore' // Needed to decrypt the keystore file
+    //   },
+    //   {
+    //     mnemonic: '12 word mnemonic',
+    //     addressIndex: '0', // Optionnal. The index to start getting the address
+    //     numAddresses: '1', // Optionnal. The number of addresses to get
+    //     hdpath: 'm/44\'/60\'/0\'/0/' // Optionnal. HD derivation path: m/44'/60'/0'/0
+    //   }
+    // ]
   },
 
   // default environment, merges with the settings in default
   // assumed to be the intended environment by `embark run` and `embark blockchain`
   development: {
+    ethereumClientName: 'geth', // Can be geth or parity (default:geth)
+    // ethereumClientBin: 'geth',  // path to the client binary. Useful if it is not in the global PATH
     networkType: 'custom', // Can be: testnet, rinkeby, livenet or custom, in which case, it will use the specified networkId
     networkId: '1337', // Network id used when networkType is custom
     rpcHost: 'localhost', // HTTP-RPC server listening interface (default: 'localhost')
@@ -17,19 +45,27 @@ module.exports = {
     wsHost: 'localhost', // WS-RPC server listening interface (default: 'localhost')
     wsPort: 8546, // WS-RPC server listening port (default: 8546)
     isDev: true, // Uses and ephemeral proof-of-authority network with a pre-funded developer account, mining enabled
-    datadir: '.embark/development/datadir', // Data directory for the databases and keystore
+    datadir: '.embark/development/datadir', // Data directory for the databases and keystore (Geth 1.8.15 and Parity 2.0.4 can use the same base folder, till now they does not conflict with each other)
     mineWhenNeeded: true, // Uses our custom script (if isDev is false) to mine only when needed
     nodiscover: true, // Disables the peer discovery mechanism (manual peer addition)
     maxpeers: 0, // Maximum number of network peers (network disabled if set to 0) (default: 25)
     proxy: true, // Proxy is used to present meaningful information about transactions
     targetGasLimit: 8000000, // Target gas limit sets the artificial target gas floor for the blocks to mine
-    simulatorMnemonic: 'example exile argue silk regular smile grass bomb merge arm assist farm', // Mnemonic  used by the simulator to generate a wallet // 0xB8D851486d1C953e31A44374ACa11151D49B8bb3
-    simulatorBlocktime: 0, // Specify blockTime in seconds for automatic mining. Default is 0 and no auto-mining.
-    account: {
-      numAccounts: 9, // When specified, creates accounts for use in the dapp. This option only works in the development environment, and can be used as a quick start option that bypasses the need for MetaMask in development. These accounts are unlocked and funded with the below settings.
-      // password: 'config/development/password', // Password for the created accounts (as specified in the `numAccounts` setting). If `mineWhenNeeded` is enabled (and isDev is not), this password is used to create a development account controlled by the node.
-      balance: '100 ether' // Balance to be given to the created accounts (as specified in the `numAccounts` setting)
-    }
+    simulatorBlocktime: 0 // Specify blockTime in seconds for automatic mining. Default is 0 and no auto-mining.
+    // accounts: [
+    //   {
+    //     nodeAccounts: true, // Uses the Ethereum node's accounts
+    //     numAddresses: '9' // Number of addresses/accounts (defaults to 1)
+    //     // When specified, creates accounts for use in the dapp. This option only works in the development environment, and can be used as a quick start option that bypasses the need for MetaMask in development. These accounts are unlocked and funded with the below settings.
+    //     // balance: '100 ether' // Balance to be given to the created accounts (as specified in the `numAccounts` setting)
+    //   }
+    //   // {
+    //   //   mnemonic: 'example exile argue silk regular smile grass bomb merge arm assist farm', // 0xB8D851486d1C953e31A44374ACa11151D49B8bb3
+    //   //   addressIndex: '0', // Optionnal. The index to start getting the address
+    //   //   numAddresses: '1', // Optionnal. The number of addresses to get
+    //   //   hdpath: 'm/44\'/60\'/0\'/0/' // Optionnal. HD derivation path: m/44'/60'/0'/0
+    //   // }
+    // ]
   },
 
   // merges with the settings in default
@@ -64,43 +100,47 @@ module.exports = {
     nodiscover: true,
     maxpeers: 0,
     proxy: true,
-    account: {
-      // 'address': '', // When specified, uses that address instead of the default one for the network
-      password: 'config/privatenet/password' // Password to unlock the account. If `mineWhenNeeded` is enabled (and isDev is not), this password is used to create a development account controlled by the node.
-    },
     targetGasLimit: 8000000,
-    simulatorMnemonic: 'example exile argue silk regular smile grass bomb merge arm assist farm',
-    simulatorBlocktime: 0
+    simulatorBlocktime: 0,
+    accounts: [
+      {
+        nodeAccounts: true,
+        password: 'config/privatenet/password' // Password to unlock the account
+      }
+    ]
   },
 
   // merges with the settings in default
   // used with 'embark run testnet' and/or 'embark blockchain testnet'
   testnet: {
-    networkType: 'rinkeby',
-    account: {
-      // address: '0xF0Aa93485C6373f1A9f121AD89b40592918fC48a' // When specified, uses that address instead of the default one for the network
-    }
+    networkType: 'custom',
+    networkId: '4' // rinkeby
     // rpcCorsDomain: 'https://cloudflare-ipfs.com,https://ipfs.infura.io,http://localhost:8080,http://localhost:8000,embark',
     // wsOrigins: 'https://cloudflare-ipfs.com,https://ipfs.infura.io,http://localhost:8080,http://localhost:8000,embark'
     // syncMode: 'light',
-    // rpcCorsDomain: 'http://localhost:8000',
-    // wsOrigins: 'http://localhost:8000',
-    // account: {
-    //   password: 'config/livenet/password'
-    // }
+    // accounts: [
+    //   {
+    //     nodeAccounts: true,
+    //     password: 'config/privatenet/password' // Password to unlock the account
+    //   }
+    // ]
   },
 
   // merges with the settings in default
   // used with 'embark run livenet' and/or 'embark blockchain livenet'
   livenet: {
-    networkType: 'livenet',
-    account: {
-      // address: '' // When specified, uses that address instead of the default one for the network
-    }
+    networkType: 'custom',
+    networkId: '1' // mainnet
+    // accounts: [
+    //   {
+    //     nodeAccounts: true,
+    //     password: 'config/privatenet/password' // Password to unlock the account
+    //   }
+    // ]
   }
 
-  // you can name an environment with specific settings and then specify with
-  // 'embark run custom_name' or 'embark blockchain custom_name'
+  // // you can name an environment with specific settings and then specify with
+  // // 'embark run custom_name' or 'embark blockchain custom_name'
   // custom_name: {
   // }
 };
