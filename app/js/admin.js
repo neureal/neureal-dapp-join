@@ -21,8 +21,6 @@ function error (err) {
 //   return inv;
 // }
 
-// TODO figure out better gasLimit and prices
-
 async function pinIpfs (gateway, hash) {
   if (gateway === null) return;
   const call = `${gateway}/api/v0/pin/add?arg=/ipfs/${hash}&recursive=true`;
@@ -75,8 +73,8 @@ window.addEventListener('load', async () => {
             try {
               // const inputname = $('#div_deploy #input_name').val(); if (inputname.length > 32) throw new Error('Contract name too long.');
               // const inputsymbol = $('#div_deploy #input_symbol').val(); if (inputsymbol.length > 8) throw new Error('Contract symbol too long.');
-              // curContract = await NeurealRewards.deploy({ arguments: [inputname, inputsymbol], data: NeurealRewards.options.data }).send({ gas: 6000000 });
-              curContract = await NeurealRewards.deploy({ data: NeurealRewards.options.data }).send({ gas: 6000000 });
+              // curContract = await NeurealRewards.deploy({ arguments: [inputname, inputsymbol], data: NeurealRewards.options.data }).send();
+              curContract = await NeurealRewards.deploy({ data: NeurealRewards.options.data }).send();
               window.location.search = 'contract=' + encodeURI(curContract.options.address);
             } catch (err) { error(err); }
           });
@@ -126,7 +124,7 @@ window.addEventListener('load', async () => {
             const hash = await EmbarkJS.Storage.saveText(JSON.stringify(json));
             await pinIpfs(ipfsApiGateway, hash); await pinIpfs(ipfsApiGtwyBkup, hash);
             const uri = ipfsLiveGateway + '/ipfs/' + hash; // 'fs:/ipfs/','/ipfs/','ipfs/' didn't work on OpenSea
-            const receipt = await curContract.methods.mintWithTokenURI(owner, uri).send({ gas: 4000000 });
+            const receipt = await curContract.methods.mintWithTokenURI(owner, uri).send();
             const id = receipt.events['Transfer'].returnValues.tokenId;
             const item = `<p id="d">NFT | <a href="${uri}" target="_blank">MetaData</a> | <a href="${OpenSeaLink}/${curContract.options.address}/${id}" target="_blank">OpenSea</a> | ID[${id}]</p>`;
             $('#div_mint #span_content').append(item);

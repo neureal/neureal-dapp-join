@@ -4,7 +4,7 @@ module.exports = {
     // Automatically call `ethereum.enable` if true.
     // If false, the following code must run before sending any transaction: `await EmbarkJS.enableEthereum();`
     // Default value is true.
-    // dappAutoEnable: false, // TODO not working in Embark 3.2.7
+    dappAutoEnable: false,
 
     // order of connections the dapp should connect to
     dappConnection: [

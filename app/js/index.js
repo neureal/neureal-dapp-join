@@ -1,4 +1,4 @@
-/* globals web3 fetch */
+/* globals web3 */
 import $ from 'jquery';
 import EmbarkJS from 'Embark/EmbarkJS';
 import NeurealRewards from 'Embark/contracts/NeurealRewards';
@@ -13,18 +13,14 @@ function error (err) {
 }
 
 window.addEventListener('load', async () => {
-  $('#btn_terms').click(function () {
+  $('#btn_terms').click(async function () {
     $('#modal_terms').removeClass('w3-show');
-  });
 
-  try {
-    if (!window.ethereum && !window.web3) throw new Error('Non supported browser detected.');
+    if (!window.ethereum && !window.web3) return;
     if (window.ethereum) await window.ethereum.enable();
-
     EmbarkJS.onReady(async (err) => {
       try {
         // ** Check blockchain
-        // if (err) throw new Error(err);
         if (err) return;
         console.log('blockchain OK');
 
@@ -48,14 +44,12 @@ window.addEventListener('load', async () => {
             const balance = await web3.eth.getBalance(accounts[0]);
             // if (balance < 25) throw new Error('No accounts available, please choose an account with enough funding.');
             const val = web3.utils.toWei('0.001', 'ether');
-            const receipt = await web3.eth.sendTransaction({ from: accounts[0], to: curContract.options.address, value: val, gas: '4000000' });
+            const receipt = await web3.eth.sendTransaction({ from: accounts[0], to: curContract.options.address, value: val });
             // const id = receipt.events['Transfer'].returnValues.tokenId;
-
           } catch (err) { error(err); }
           $('#progress').addClass('w3-hide');
         });
-
       } catch (err) { error(err); }
     });
-  } catch (err) { error(err); }
+  });
 });
