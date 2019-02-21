@@ -71,12 +71,15 @@ window.addEventListener('load', async () => {
           $('#div_deploy').removeClass('w3-hide');
           $('#div_deploy #button_deploy').click(async function () {
             try {
+              $('#div_error').addClass('w3-hide');
+              $('#modal_progress').addClass('w3-show');
               // const inputname = $('#div_deploy #input_name').val(); if (inputname.length > 32) throw new Error('Contract name too long.');
               // const inputsymbol = $('#div_deploy #input_symbol').val(); if (inputsymbol.length > 8) throw new Error('Contract symbol too long.');
               // curContract = await NeurealRewards.deploy({ arguments: [inputname, inputsymbol], data: NeurealRewards.options.data }).send();
               curContract = await NeurealRewards.deploy({ data: NeurealRewards.options.data }).send();
               window.location.search = 'contract=' + encodeURI(curContract.options.address);
             } catch (err) { error(err); }
+            $('#modal_progress').removeClass('w3-show');
           });
           return;
         }
@@ -106,6 +109,8 @@ window.addEventListener('load', async () => {
         // TODO ping this after change: https://rinkeby-api.opensea.io/api/v1/asset/<your_contract_address>/<token_id>/?force_update=true
         $('#div_mint #button_execute').click(async function () {
           try {
+            $('#div_error').addClass('w3-hide');
+            $('#modal_progress').addClass('w3-show');
             $('#div_mint #span_content #d').remove();
             const owner = $('#div_mint #input_address').val();
             if (!web3.utils.isAddress(owner)) throw new Error('Address is not a correctly formated Ethereum address.');
@@ -129,14 +134,16 @@ window.addEventListener('load', async () => {
             const item = `<p id="d">NFT | <a href="${uri}" target="_blank">MetaData</a> | <a href="${OpenSeaLink}/${curContract.options.address}/${id}" target="_blank">OpenSea</a> | ID[${id}]</p>`;
             $('#div_mint #span_content').append(item);
           } catch (err) { error(err); }
+          $('#modal_progress').removeClass('w3-show');
         });
 
         // Get an NFT by ID
         $('#div_list_id #button_query').click(async function () {
           try {
+            $('#div_error').addClass('w3-hide');
             $('#div_list_id #span_content #d').remove();
             // const id = inputToUint256($('#div_list_id #input_id').val());
-            const id = web3.utils.toBN($('#div_list_id #input_id').val());
+            const id = web3.utils.toBN($('#div_list_id #input_id').val()).toString();
             const owner = await curContract.methods.ownerOf(id).call();
             const uri = await curContract.methods.tokenURI(id).call();
             const item = `<p id="d">NFT | <a href="${uri}" target="_blank">MetaData</a> | <a href="${OpenSeaLink}/${curContract.options.address}/${id}" target="_blank">OpenSea</a> | ID[${id}] Owner[${owner}]</p>`;
@@ -147,6 +154,7 @@ window.addEventListener('load', async () => {
         // List NFTs owned by address
         $('#div_list_owner #button_list').click(async function () {
           try {
+            $('#div_error').addClass('w3-hide');
             $('#div_list_owner #span_content #d').remove();
             const owner = $('#div_list_owner #input_address').val();
             if (!web3.utils.isAddress(owner)) throw new Error('Address is not a correctly formated Ethereum address.');
@@ -163,6 +171,7 @@ window.addEventListener('load', async () => {
         // List all minted NFTs
         $('#div_list #button_list').click(async function () {
           try {
+            $('#div_error').addClass('w3-hide');
             $('#div_list #span_content #d').remove();
             const count = await curContract.methods.totalSupply().call();
             for (var i = 0; i < count; i++) {
