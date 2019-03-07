@@ -18,11 +18,16 @@ contract NeurealRewards is ERC721Full, ERC721MetadataMintable {
 
     /*** State Variables ***/
     uint256 private tokenId = 0;
+
+    // Mapping from token ID to allocated address
+    mapping (uint256 => address) private _tokenAllocation;
     
     /*** Events ***/
 
     /* Initializes contract */
-    constructor() ERC721Full("Neureal Rewards", "NEUR") public { }
+    constructor(address account) ERC721Full("Neureal Rewards", "NEUR") public {
+        addMinter(account); // Add allocation minter
+    }
 
     function mintWithTokenURI(address to, string calldata tokenURI) external {
         require(mintWithTokenURI(to, tokenId, tokenURI), "");
@@ -41,6 +46,18 @@ contract NeurealRewards is ERC721Full, ERC721MetadataMintable {
         require(msg.value != 0, ""); // Stop spamming, contract only calls, etc
         require(msg.sender != address(0), ""); // Prevent transfer to 0x0 address
         require(msg.sender != address(this), ""); // Prevent calls from this.transfer(this)
-        // assert(address(this).balance >= msg.value, ""); // this.balance gets updated with msg.value before this function starts 
+        // assert(address(this).balance >= msg.value, ""); // this.balance gets updated with msg.value before this function starts
+
+        //check amount
+        //save msg.sender
+
+        //lock in current token Id
+        tokenId = tokenId.add(1);
+    }
+
+    function mintAllocated(uint256 AllocatedTokenId, string calldata tokenURI) external {
+        address to = _tokenAllocation[AllocatedTokenId];
+        require(to != address(0), "");
+        require(mintWithTokenURI(to, AllocatedTokenId, tokenURI), "");
     }
 }
