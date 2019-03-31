@@ -3,6 +3,12 @@ import $ from 'jquery';
 import EmbarkJS from 'Embark/EmbarkJS';
 import NeurealRewards from 'Embark/contracts/NeurealRewards';
 
+const netInfo = {
+  1: { desc: 'Main Ethereum Network', explorer: 'https://etherscan.io', opensea: 'https://opensea.io/assets' },
+  4: { desc: 'Rinkeby Test Network', explorer: 'https://rinkeby.etherscan.io', opensea: 'https://rinkeby.opensea.io/assets' },
+  1337: { desc: 'Local Network', explorer: '', opensea: '' }
+};
+
 function error (err) {
   $('#div_error').removeClass('w3-hide');
   $('#div_error #text_description').text(err);
@@ -13,7 +19,8 @@ window.addEventListener('load', async () => {
     $('#modal_terms').removeClass('w3-show');
 
     if (!window.ethereum && !window.web3) return;
-    if (window.ethereum) await window.ethereum.enable();
+    if (window.ethereum) await EmbarkJS.enableEthereum();
+    // if (window.ethereum) await window.ethereum.enable();
     EmbarkJS.onReady(async (err) => {
       try {
         // ** Check blockchain
@@ -21,8 +28,11 @@ window.addEventListener('load', async () => {
         console.log('blockchain OK');
 
         // ** Main
-        const contractAddr = $('#contract-address').text();
+        const contractAddr = $('#contract_address').text();
         if (!web3.utils.isAddress(contractAddr)) throw new Error('Contract address incorrect.');
+        const netid = await web3.eth.net.getId();
+        if (netInfo[netid] === undefined) throw new Error(`Incompatable network for this dapp. Please choose ${netInfo[Object.keys(netInfo)[0]].desc}.`);
+
         const curContract = new EmbarkJS.Blockchain.Contract({
           abi: NeurealRewards.options.jsonInterface,
           address: contractAddr,

@@ -3,7 +3,7 @@
   "app": {
     "robots.txt": "app/robots.txt",
     "favicon.ico": "app/favicon.ico",
-    "static/images/": ["app/images/**"],
+    "static/": ["app/images/**"],
     "static/css/w3.css": ["app/css/w3.css"],
 
     "index.html": "app/index.html",
@@ -24,11 +24,13 @@
     "webserver": "config/webserver.js"
   },
   "plugins": {
+    "embarkjs-connector-web3": {}
   },
   "options": {
     "solc": {
       "optimize": true,
       "optimize-runs": 200
     }
-  }
+  },
+  "generationDir": "embarkArtifacts"
 }

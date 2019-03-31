@@ -39,9 +39,15 @@ module.exports = {
     networkId: '1337', // Network id used when networkType is custom
     rpcHost: 'localhost', // HTTP-RPC server listening interface (default: 'localhost')
     rpcPort: 8545, // HTTP-RPC server listening port (default: 8545)
-    rpcCorsDomain: 'auto', // Comma separated list of domains from which to accept cross origin requests (browser enforced) When set to 'auto', Embark will automatically set the cors to the address of the webserver
+    rpcCorsDomain: { // Domains from which to accept cross origin requests (browser enforced). This can also be a comma separated list
+      auto: true, // When "auto" is true, Embark will automatically set the cors to the address of the webserver
+      additionalCors: [] // Additional CORS domains to add to the list. If "auto" is false, only those will be added
+    },
     wsRPC: true, // Enable the WS-RPC server
-    wsOrigins: 'auto', // Origins from which to accept websockets requests. When set to 'auto', Embark will automatically set the cors to the address of the webserver
+    wsOrigins: { // Same thing as "rpcCorsDomain", but for WS origins
+      auto: true,
+      additionalCors: []
+    },
     wsHost: 'localhost', // WS-RPC server listening interface (default: 'localhost')
     wsPort: 8546, // WS-RPC server listening port (default: 8546)
     isDev: true, // Uses and ephemeral proof-of-authority network with a pre-funded developer account, mining enabled
@@ -75,9 +81,15 @@ module.exports = {
     networkId: '1337',
     rpcHost: 'localhost', // HTTP-RPC server listening interface (default: 'localhost')
     rpcPort: 8545, // HTTP-RPC server listening port (default: 8545)
-    rpcCorsDomain: 'auto', // Comma separated list of domains from which to accept cross origin requests (browser enforced) When set to 'auto', Embark will automatically set the cors to the address of the webserver
+    rpcCorsDomain: { // Domains from which to accept cross origin requests (browser enforced). This can also be a comma separated list
+      auto: true, // When "auto" is true, Embark will automatically set the cors to the address of the webserver
+      additionalCors: [] // Additional CORS domains to add to the list. If "auto" is false, only those will be added
+    },
     wsRPC: true, // Enable the WS-RPC server
-    wsOrigins: 'auto', // Origins from which to accept websockets requests. When set to 'auto', Embark will automatically set the cors to the address of the webserver
+    wsOrigins: { // Same thing as "rpcCorsDomain", but for WS origins
+      auto: true,
+      additionalCors: []
+    },
     wsHost: 'localhost', // WS-RPC server listening interface (default: 'localhost')
     wsPort: 8546, // WS-RPC server listening port (default: 8546)
     isDev: false,

@@ -2,15 +2,17 @@
 import $ from 'jquery';
 import EmbarkJS from 'Embark/EmbarkJS';
 import NeurealRewards from 'Embark/contracts/NeurealRewards';
+// import EmbarkJS from './embarkArtifacts/embarkjs';
+// import Token from './embarkArtifacts/contracts/Token';
 
 const ipfsApiGateway = 'https://ipfs.infura.io:5001';
 const ipfsLiveGateway = 'https://cloudflare-ipfs.com';
-const OpenSeaLinkMainnet = 'https://opensea.io/assets';
-const OpenSeaLinkTestnet = 'https://rinkeby.opensea.io/assets';
-const NetDescMainnet = 'Main Ethereum Network';
-const NetDescTestnet = 'Rinkeby Test Network';
-const NetIdMainnet = 1;
-const NetIdTestnet = 4;
+
+const netInfo = {
+  1: { desc: 'Main Ethereum Network', explorer: 'https://etherscan.io', opensea: 'https://opensea.io/assets' },
+  4: { desc: 'Rinkeby Test Network', explorer: 'https://rinkeby.etherscan.io', opensea: 'https://rinkeby.opensea.io/assets' },
+  1337: { desc: 'Local Network', explorer: '', opensea: '' }
+};
 
 function error (err) {
   $('#div_error').removeClass('w3-hide');
@@ -36,11 +38,11 @@ async function pinIpfs (gateway, hash) {
   return (hashRsp) ? hashRsp[0] === hash : false;
 }
 
-// TODO add progress bars
 window.addEventListener('load', async () => {
   try {
     if (!window.ethereum && !window.web3) throw new Error('Non-Ethereum browser detected.');
-    if (window.ethereum) await window.ethereum.enable();
+    if (window.ethereum) await EmbarkJS.enableEthereum();
+    // if (window.ethereum) await window.ethereum.enable();
 
     EmbarkJS.onReady(async (err) => {
       try {
@@ -54,18 +56,12 @@ window.addEventListener('load', async () => {
         const result = await EmbarkJS.Storage.isAvailable();
         if (!result) throw new Error('Storage not available.');
         console.log('storage OK');
+        // console.log('web3.version: ', web3.version);
 
         // ** Main
         var curContract = NeurealRewards;
         const netid = await web3.eth.net.getId();
-        var OpenSeaLink = ''; var NetDesc = 'Local Network';
-        const netIdError = 'Incompatable network for this dapp. Please connect to the ';
-        if (EmbarkJS.environment === 'livenet') {
-          OpenSeaLink = OpenSeaLinkMainnet; NetDesc = NetDescMainnet; if (netid !== NetIdMainnet) throw new Error(netIdError + NetDesc);
-        }
-        if (EmbarkJS.environment === 'testnet') {
-          OpenSeaLink = OpenSeaLinkTestnet; NetDesc = NetDescTestnet; if (netid !== NetIdTestnet) throw new Error(netIdError + NetDesc);
-        }
+        if (netInfo[netid] === undefined) throw new Error(`Incompatable network for this dapp. Please choose ${netInfo[Object.keys(netInfo)[0]].desc}.`);
 
         // Get current contract address
         const urlParams = new URLSearchParams(window.location.search);
@@ -83,15 +79,17 @@ window.addEventListener('load', async () => {
         } else {
           // Deploy new contract
           $('#div_deploy').removeClass('w3-hide');
-          $('#div_deploy #text_network').text(NetDesc);
+          $('#div_deploy #text_network').text(netInfo[netid].desc);
           $('#div_deploy #button_deploy').click(async function () {
             try {
               $('#div_error').addClass('w3-hide');
               $('#modal_progress').addClass('w3-show');
-              // const inputname = $('#div_deploy #input_name').val(); if (inputname.length > 32) throw new Error('Contract name too long.');
-              // const inputsymbol = $('#div_deploy #input_symbol').val(); if (inputsymbol.length > 8) throw new Error('Contract symbol too long.');
-              // curContract = await NeurealRewards.deploy({ arguments: [inputname, inputsymbol], data: NeurealRewards.options.data }).send();
-              curContract = await NeurealRewards.deploy({ data: NeurealRewards.options.data }).send();
+              const minter = $('#div_deploy #input_address').val(); if (!web3.utils.isAddress(minter)) throw new Error('Address is not a correctly formated Ethereum address.');
+              const inputname = $('#div_deploy #input_name').val(); if (inputname.length > 32) throw new Error('Contract name too long.');
+              const inputsymbol = $('#div_deploy #input_symbol').val(); if (inputsymbol.length > 8) throw new Error('Contract symbol too long.');
+              const inputcap = web3.utils.toWei($('#div_deploy #input_cap').val());
+              curContract = await NeurealRewards.deploy({ arguments: [minter, inputcap, inputname, inputsymbol], data: NeurealRewards.options.data }).send();
+              // curContract = await NeurealRewards.deploy({ data: NeurealRewards.options.data }).send();
               window.location.search = 'contract=' + encodeURI(curContract.options.address);
             } catch (err) { error(err); }
             $('#modal_progress').removeClass('w3-show');
@@ -108,15 +106,15 @@ window.addEventListener('load', async () => {
         $('#div_info #text_name').text(name);
         const symbol = await curContract.methods.symbol().call();
         $('#div_info #text_symbol').text(symbol);
-        $('#div_info #text_network').text(NetDesc);
+        $('#div_info #text_network').text(netInfo[netid].desc);
         $('#div_info #text_address').text(curContract.options.address);
+        $('#div_info #text_details').html(`<a href="${netInfo[netid].explorer}/address/${curContract.options.address}" target="_blank">View Contract Details</a>`);
         const accounts = await web3.eth.getAccounts();
         if (accounts.length < 1) throw new Error('No accounts available.');
         const divInfo = $('#div_info');
         for (var i = 0; i < 3 && i < accounts.length; i++) {
           const minter = await curContract.methods.isMinter(accounts[i]).call();
-          const balance = await web3.eth.getBalance(accounts[i]);
-          const item = `<p>Account[${i}]: ${accounts[i]}<br>owner? ${minter} | ${web3.utils.fromWei(balance)} ETH</p>`;
+          const item = `<p>Using ETH Wallet Account: ${accounts[i]}<br><span class="w3-text-grey">Minter Role? ${minter}</span></p>`;
           divInfo.append(item);
         }
 
@@ -147,7 +145,8 @@ window.addEventListener('load', async () => {
             const uri = ipfsLiveGateway + '/ipfs/' + hash; // 'fs:/ipfs/','/ipfs/','ipfs/' didn't work on OpenSea
             const receipt = await curContract.methods.mintWithTokenURI(owner, uri).send();
             const id = receipt.events['Transfer'].returnValues.tokenId;
-            const item = `<p id="d">NFT | <a href="${uri}" target="_blank">MetaData</a> | <a href="${OpenSeaLink}/${curContract.options.address}/${id}" target="_blank">OpenSea</a> | ID[${id}]</p>`;
+            const item = `<p id="d"><b>NFT</b> | <a href="${uri}" target="_blank">MetaData</a> | <a href="${netInfo[netid].opensea}/${curContract.options.address}/${id}" target="_blank">OpenSea</a>` +
+            ` | <a href="${netInfo[netid].explorer}/token/${curContract.options.address}?a=${id}" target="_blank">History</a> | ID[${id}]</p>`;
             $('#div_mint #span_content').append(item);
           } catch (err) { error(err); }
           $('#modal_progress').removeClass('w3-show');
@@ -162,7 +161,8 @@ window.addEventListener('load', async () => {
             const id = web3.utils.toBN($('#div_list_id #input_id').val()).toString();
             const owner = await curContract.methods.ownerOf(id).call();
             const uri = await curContract.methods.tokenURI(id).call();
-            const item = `<p id="d">NFT | <a href="${uri}" target="_blank">MetaData</a> | <a href="${OpenSeaLink}/${curContract.options.address}/${id}" target="_blank">OpenSea</a> | ID[${id}] Owner[${owner}]</p>`;
+            const item = `<p id="d"><b>NFT</b> | <a href="${uri}" target="_blank">MetaData</a> | <a href="${netInfo[netid].opensea}/${curContract.options.address}/${id}" target="_blank">OpenSea</a>` +
+            ` | <a href="${netInfo[netid].explorer}/token/${curContract.options.address}?a=${id}" target="_blank">History</a> | ID[${id}] Owner[${owner}]</p>`;
             $('#div_list_id #span_content').append(item);
           } catch (err) { error(err); }
         });
@@ -178,7 +178,8 @@ window.addEventListener('load', async () => {
             for (var i = 0; i < count; i++) {
               const id = await curContract.methods.tokenOfOwnerByIndex(owner, i).call();
               const uri = await curContract.methods.tokenURI(id).call();
-              const item = `<p id="d">NFT | <a href="${uri}" target="_blank">MetaData</a> | <a href="${OpenSeaLink}/${curContract.options.address}/${id}" target="_blank">OpenSea</a> | ID[${id}]</p>`;
+              const item = `<p id="d"><b>NFT</b> | <a href="${uri}" target="_blank">MetaData</a> | <a href="${netInfo[netid].opensea}/${curContract.options.address}/${id}" target="_blank">OpenSea</a>` +
+              ` | <a href="${netInfo[netid].explorer}/token/${curContract.options.address}?a=${id}" target="_blank">History</a> | ID[${id}]</p>`;
               $('#div_list_owner #span_content').append(item);
             }
           } catch (err) { error(err); }
@@ -194,7 +195,8 @@ window.addEventListener('load', async () => {
               const id = await curContract.methods.tokenByIndex(i).call();
               const owner = await curContract.methods.ownerOf(id).call();
               const uri = await curContract.methods.tokenURI(id).call();
-              const item = `<p id="d">NFT | <a href="${uri}" target="_blank">MetaData</a> | <a href="${OpenSeaLink}/${curContract.options.address}/${id}" target="_blank">OpenSea</a> | ID[${id}] Owner[${owner}]</p>`;
+              const item = `<p id="d"><b>NFT</b> | <a href="${uri}" target="_blank">MetaData</a> | <a href="${netInfo[netid].opensea}/${curContract.options.address}/${id}" target="_blank">OpenSea</a>` +
+              ` | <a href="${netInfo[netid].explorer}/token/${curContract.options.address}?a=${id}" target="_blank">History</a> | ID[${id}] Owner[${owner}]</p>`;
               $('#div_list #span_content').append(item);
             }
           } catch (err) { error(err); }

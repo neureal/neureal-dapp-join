@@ -23,6 +23,7 @@ module.exports = {
       'SafeMath': { deploy: false },
       'Address': { deploy: false },
       'Roles': { deploy: false },
+      'Counters': { deploy: false },
 
       'ERC721Full': { deploy: false },
       'ERC721MetadataMintable': { deploy: false },
@@ -70,10 +71,10 @@ module.exports = {
     //   ]
     // },
     versions: {
-      'web3': '1.0.0-beta', // = '1.0.0-beta.34'
-      // TODO 'web3': '1.0.0-beta.37',
-      'solc': '0.5.0'
-      // TODO 'solc': '0.5.4'
+      'web3': '1.0.0-beta', // = '1.0.0-beta.37'
+      // TODO 'web3': '1.0.0-beta.51',
+      'solc': '0.5.2'
+      // TODO 'solc': '0.5.7'
     }
   },
 
@@ -85,6 +86,9 @@ module.exports = {
       'http://localhost:8545',
       '$WEB3' // uses pre existing web3 object if available (e.g in Mist)
     ],
+    contracts: {
+      'NeurealRewards': { args: [ '0xf9311383b518Ed6868126353704dD8139f7A30bE', '99999', 'XYZ NFT', 'XYZT' ] }
+    },
     deployment: {
       host: 'localhost', // Host of the blockchain node
       port: 8546, // Port of the blockchain node
@@ -112,7 +116,7 @@ module.exports = {
       //     // hdpath: 'm/44\'/60\'/0\'/0/' // Optional. HD derivation path
       //   }
       // ],
-      host: 'rinkeby.infura.io/f671218d5de443d797cc94560bde246b',
+      host: 'rinkeby.infura.io/v3/3faed45f144b4138a4f32f75367e34a1',
       port: false,
       protocol: 'https',
       type: 'rpc' // TODO does Infura websocket (ws) work here?
@@ -126,8 +130,7 @@ module.exports = {
       'NeurealRewards': { deploy: false }
     },
     deployment: {
-      // TODO add Ledger support
-      host: 'mainnet.infura.io/f671218d5de443d797cc94560bde246b',
+      host: 'mainnet.infura.io/v3/3faed45f144b4138a4f32f75367e34a1',
       port: false,
       protocol: 'https',
       type: 'rpc' // TODO does Infura websocket (ws) work here?

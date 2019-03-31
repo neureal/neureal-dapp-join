@@ -18,19 +18,19 @@ a {
 	font-family: 'Montserrat';
 	font-style: light;
 	font-weight: 300;
-	src: local('Montserrat'), url('../images/fonts/Montserrat-Light.ttf') format('ttf');
+	src: local('Montserrat'), url('../app/images/fonts/Montserrat-Light.ttf') format('ttf');
 }
 @font-face {
 	font-family: 'Montserrat';
 	font-style: regular;
 	font-weight: 400;
-	src: local('Montserrat'), url('../images/fonts/Montserrat-Regular.ttf') format('ttf');
+	src: local('Montserrat'), url('../app/images/fonts/Montserrat-Regular.ttf') format('ttf');
 }
 @font-face {
 	font-family: 'Montserrat';
 	font-style: medium;
 	font-weight: 500;
-	src: local('Montserrat'), url('../images/fonts/Montserrat-Medium.ttf') format('ttf');
+	src: local('Montserrat'), url('../app/images/fonts/Montserrat-Medium.ttf') format('ttf');
 }
 
 .w3-montserrat-small {
@@ -84,7 +84,7 @@ a {
 }
 
 .banner {
-	background: url('../images/sale-banner.svg');
+	background: url('../app/images/sale-banner.svg');
 	background-size: cover;
 	width: 100vw;
   padding-bottom: 72px;

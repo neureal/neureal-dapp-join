@@ -4,9 +4,14 @@ module.exports = {
     enabled: true,
     available_providers: ['ipfs'],
     ipfs_bin: 'ipfs',
-    provider: 'ipfs',
+    upload: {
+      provider: 'ipfs',
+      host: 'localhost',
+      port: 5001,
+      getUrl: 'http://localhost:8080/ipfs/'
+    },
     versions: {
-      // TODO 'ipfs-api': '28.1.1'
+      // TODO 'ipfs-api': '26.1.2' or change to ipfs-http-client
       'ipfs-api': '18.2.0'
     }
   },
@@ -14,12 +19,6 @@ module.exports = {
   // default environment, merges with the settings in default
   // assumed to be the intended environment by `embark run`
   development: {
-    // upload: {
-    //   provider: 'ipfs',
-    //   host: 'localhost',
-    //   port: 5001,
-    //   getUrl: 'http://localhost:8080/ipfs/'
-    // },
     dappConnection: [
       {
         provider: 'ipfs',
@@ -44,13 +43,6 @@ module.exports = {
   // merges with the settings in default
   // used with 'embark run testnet'
   testnet: {
-    // upload: {
-    //   provider: 'ipfs',
-    //   host: 'ipfs.infura.io',
-    //   port: 5001,
-    //   protocol: 'https',
-    //   getUrl: 'https://ipfs.infura.io/ipfs/'
-    // },
     dappConnection: [
       {
         provider: 'ipfs',
