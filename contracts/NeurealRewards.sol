@@ -12,30 +12,38 @@ contract NeurealRewards is ERC721Full, ERC721MetadataMintable {
     using SafeMath for uint256;
     // using Address for address;
 
-    /*** TODO Testing (remove for production) ***/
-    // uint256 public constant OPENING_RATE = 6400;
-
     /*** State Variables ***/
-    uint256 public constant CAP = 99999;
-    address public constant MINTER = 0xf9311383b518Ed6868126353704dD8139f7A30bE;
+    // TODO Set this to the Neureal multisig wallet that will take the ETH from the sale
+    address payable public constant NEUREAL_ETH_WALLET = 0x3B2c9752B55eab06A66A6117E5D428835b03169d;
+    // TODO Set this to the address of the wallet that has authority to mint new NFTs
+    address public constant MINTING_PROVIDER = 0xf9311383b518Ed6868126353704dD8139f7A30bE;
+    
+    uint256 public constant MAX_SUPPLY = 9999; // Maximum tokens possible to mint
+    uint256 public constant COST_WEI = 1 * 10**15;
 
-    uint256 private _tokenId = 0;
-    function tokenId() public view returns (uint256) { return _tokenId; }
+    address private _owner; // Contract creator
+    function owner() external view returns (address) { return _owner; }
 
-    // Mapping from token ID to allocated address
+    uint256 private _tokenId = 0; // Unique ID of an NFT
+    function tokenId() external view returns (uint256) { return _tokenId; }
+
+    // Mapping from tokenID to allocated address
     mapping (uint256 => address) private _tokenAllocation;
     
     
     /*** Events ***/
+    event TokenPurchase(uint256 _tokenId);
 
     /* Initializes contract */
-    constructor() ERC721Full("XYZ NFT", "XYZT") public { addMinter(MINTER); }
+    constructor() ERC721Full("XYZ NFT Series", "XYZT") public {  _owner = msg.sender; addMinter(MINTING_PROVIDER); }
     // constructor(address minter, uint256 mintcap, string memory name, string memory symbol) ERC721Full(name, symbol) public {
     //     _cap = mintcap;
+    //     _owner = msg.sender;
     //     addMinter(minter); // Add allocation minter
     // }
 
     function mintWithTokenURI(address to, string calldata tokenURI) external {
+        require(_tokenId < MAX_SUPPLY); // Contract is finished, everything is minted
         require(mintWithTokenURI(to, _tokenId, tokenURI), "");
         _tokenId = _tokenId.add(1);
     }
@@ -47,19 +55,43 @@ contract NeurealRewards is ERC721Full, ERC721MetadataMintable {
     // TODO make public facing dapp that lets people send ETH or DAI here, how to seperate public and admin?
     // TODO add this in with reward amount levels that auto mint for public dapp
     // TODO look at Status plugin to see how to put public dapp on Status on phone
-    // /* (called whenever someone tries to send ether to this contract) */
+
+
+    /* Token purchase (called whenever someone tries to send ether to this contract) */
     function() external payable {
-        require(msg.value != 0, ""); // Stop spamming, contract only calls, etc
-        require(msg.data.length == 0); // Prevent calls to invalid functions
+        require(_tokenId < MAX_SUPPLY, ""); // Contract is finished, everything is minted
+        require(msg.value > 10**14, ""); // Stop dust spamming, contract only calls, etc
+        require(msg.data.length == 0, ""); // Prevent calls to invalid functions
         require(msg.sender != address(0), ""); // Prevent transfer to 0x0 address
         require(msg.sender != address(this), ""); // Prevent calls from this.transfer(this)
         // assert(address(this).balance >= msg.value, ""); // this.balance gets updated with msg.value before this function starts
+        
+        // TODO change this to denominate in DAI and use exchange to convert
+        // check amount
+        uint256 tokens = msg.value.div(COST_WEI);
+        require(tokens != 0, ""); // Must purchase at least one item
+        uint256 maxTokenId = _tokenId.add(tokens);
+        require(maxTokenId <= MAX_SUPPLY, ""); // Check if there is enough available to allocate, the whole batch or nothing
 
-        //check amount
-        //save msg.sender
+        address msg_sender = msg.sender;
+        for (uint256 i = 0; i < tokens; i++) {
+            require(_tokenId < MAX_SUPPLY, ""); // Check if there is enough available to allocate
+            _tokenAllocation[_tokenId] = msg_sender;
+            _tokenId = _tokenId.add(1);
+            emit TokenPurchase(_tokenId);
+        }
 
-        //lock in current token Id
-        _tokenId = _tokenId.add(1);
+        // TODO refund change???
+        // uint256 refund = msg.value.mod(COST_WEI);
+    }
+
+    /* Withdraw current available ETH in contract */
+    function withdraw() external {
+        require(msg.sender == _owner); // Only owner
+        uint256 withdrawalValue = address(this).balance;
+        
+        NEUREAL_ETH_WALLET.transfer(withdrawalValue); // This works with our multisig (using 2300 gas stipend)
+        // require(NEUREAL_ETH_WALLET.call.value(withdrawalValue)()); // alternative to be able to send more gas
     }
 
     function mintAllocated(uint256 allocatedTokenId, string calldata tokenURI) external {

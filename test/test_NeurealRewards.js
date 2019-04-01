@@ -31,7 +31,7 @@ config({
     web3.eth.accounts.wallet.create(numExtraAcounts);
     for (let i = 0; i < numExtraAcounts; i++) { accounts.push(web3.eth.accounts.wallet[i].address); }
   }
-  console.log(accounts);
+  // console.log(accounts);
 });
 
 // Run tests
@@ -106,51 +106,60 @@ describe('NeurealRewards', function () {
   //   // address payable wallet = address(uint160(address(addr)));
   // });
 
-  // it('purchase: trying to purchase under MIN_PURCHASE should be reverted', async () => {
-  //   let instance = await TESTToken.new(NEUREAL_ETH_WALLET_ADDRESS, WHITELIST_PROVIDER_ADDRESS, {from: CONTRACT_CREATOR_ADDRESS, gas: deployGas, gasPrice: deployGasPrice});
-  //   await instance.transition({from: CONTRACT_CREATOR_ADDRESS});
-  //   await instance.whitelist(BUYER_ADDRESS, {from: WHITELIST_PROVIDER_ADDRESS});
+  // it('purchase: trying to purchase 10**14 Wei or less should be reverted', async () => {
+  //   let instance = await NeurealRewards.deploy({ arguments: args, data: NeurealRewards.options.data }).send({ from: accounts[0] });
 
-  //   let value = fromETHtoWeiBN(0.001);
-  //   try {
-  //     var transaction = await instance.sendTransaction({from: BUYER_ADDRESS, value: value, gas: 4712388, gasPrice: 100000000000});
-  //   } catch (err) { } // console.log(err.message); }
-  //   assert.isUndefined(transaction);
+  //   await assert.rejects(async function () {
+  //     await web3.eth.sendTransaction({ from: accounts[0], to: instance.options.address, value: (10 ** 14).toString() });
+  //   });
+  //   await assert.rejects(async function () {
+  //     await web3.eth.sendTransaction({ from: accounts[0], to: instance.options.address, value: (10 ** 14 - 1).toString() });
+  //   });
   // });
-  
+
   // it('purchase: trying to purchase over MAX_SALE should be reverted', async () => {
-  //   let instance = await TESTToken.new(NEUREAL_ETH_WALLET_ADDRESS, WHITELIST_PROVIDER_ADDRESS, {from: CONTRACT_CREATOR_ADDRESS, gas: deployGas, gasPrice: deployGasPrice});
+  //   let instance = await NeurealRewards.deploy({ arguments: args, data: NeurealRewards.options.data }).send({ from: accounts[0] });
 
-  //   await instance.transition({from: CONTRACT_CREATOR_ADDRESS}); // set to Sale
-  //   await instance.whitelist(BUYER_ADDRESS, {from: WHITELIST_PROVIDER_ADDRESS}); // must be whitelisted
+  //   let MAX_SUPPLY = web3.utils.toBN(await instance.methods.MAX_SUPPLY().call());
+  //   console.log(MAX_SUPPLY);
+  //   let COST_WEI = web3.utils.toBN(await instance.methods.COST_WEI().call());
+  //   console.log(typeof COST_WEI);
+  //   let value = MAX_SUPPLY.mul(COST_WEI).add(web3.utils.toBN(0)); // Amount to purchase with
+  //   console.log(value.toString());
 
-  //   let MAX_SALE = await instance.MAX_SALE.call();
-  //   let OPENING_RATE = await instance.OPENING_RATE.call();
-  //   let value = MAX_SALE.dividedToIntegerBy(OPENING_RATE).add(1); // Amount to purchase with
-  //   try {
-  //     var result = await instance.sendTransaction({from: BUYER_ADDRESS, value: value, gas: 4712388, gasPrice: 100000000000});
-  //   } catch (err) { } // console.log(err.message); }
-  //   assert.isUndefined(result);
+  //   // await assert.rejects(async function () {
+  //     await web3.eth.sendTransaction({ from: accounts[0], to: instance.options.address, value: value });
+  //   // });
   // });
 
-  // it('purchase: should purchase token by sending ether to contract fallback function', async () => {
-  //   let instance = await TESTToken.new(NEUREAL_ETH_WALLET_ADDRESS, WHITELIST_PROVIDER_ADDRESS, {from: CONTRACT_CREATOR_ADDRESS, gas: deployGas, gasPrice: deployGasPrice});
+  it('purchase: should purchase token by sending ether to contract fallback function', async () => {
+    let instance = await NeurealRewards.deploy({ arguments: args, data: NeurealRewards.options.data }).send({ from: accounts[0] });
 
-  //   await instance.transition({from: CONTRACT_CREATOR_ADDRESS}); // set to Sale
-  //   await instance.whitelist(BUYER_ADDRESS, {from: WHITELIST_PROVIDER_ADDRESS}); // must be whitelisted
+    let COST_WEI = web3.utils.toBN(await instance.methods.COST_WEI().call());
+    let value = COST_WEI.mul(web3.utils.toBN(2)); // Amount to purchase with
+    console.log(value.toString());
 
-  //   let value = fromETHtoWeiBN(0.01); // Amount to purchase with
-  //   var purchase = await instance.sendTransaction({from: BUYER_ADDRESS, value: value, gas: 4712388, gasPrice: 100000000000});
-  //   console.log('purchase (gasUsed): ', purchase.receipt.gasUsed);
-  //   assert.isTrue(findEvent(purchase, 'Transfer'));
-  //   assert.isTrue(findEvent(purchase, 'TokenPurchase'));
+    let result = await web3.eth.sendTransaction({ from: accounts[0], to: instance.options.address, value: value.toString() });
+    console.log(result);
 
-  //   let OPENING_RATE = await instance.OPENING_RATE.call();
-  //   let balanceOf = await instance.balanceOf.call(BUYER_ADDRESS);
-  //   // console.log('balanceOf: ', balanceOf.toFormat());
-  //   // console.log('buy: ', toETHString(OPENING_RATE.times(value)));
-  //   assert.isTrue(balanceOf.eq(OPENING_RATE.times(value)));
-  // });
+
+    // let instance = await TESTToken.new(NEUREAL_ETH_WALLET_ADDRESS, WHITELIST_PROVIDER_ADDRESS, {from: CONTRACT_CREATOR_ADDRESS, gas: deployGas, gasPrice: deployGasPrice});
+
+    // await instance.transition({from: CONTRACT_CREATOR_ADDRESS}); // set to Sale
+    // await instance.whitelist(BUYER_ADDRESS, {from: WHITELIST_PROVIDER_ADDRESS}); // must be whitelisted
+
+    // let value = fromETHtoWeiBN(0.01); // Amount to purchase with
+    // var purchase = await instance.sendTransaction({from: BUYER_ADDRESS, value: value, gas: 4712388, gasPrice: 100000000000});
+    // console.log('purchase (gasUsed): ', purchase.receipt.gasUsed);
+    // assert.isTrue(findEvent(purchase, 'Transfer'));
+    // assert.isTrue(findEvent(purchase, 'TokenPurchase'));
+
+    // let OPENING_RATE = await instance.OPENING_RATE.call();
+    // let balanceOf = await instance.balanceOf.call(BUYER_ADDRESS);
+    // // console.log('balanceOf: ', balanceOf.toFormat());
+    // // console.log('buy: ', toETHString(OPENING_RATE.times(value)));
+    // assert.isTrue(balanceOf.eq(OPENING_RATE.times(value)));
+  });
 
   // TRANSFERS
 
