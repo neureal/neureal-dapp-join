@@ -8,7 +8,7 @@ import NeurealRewards from 'Embark/contracts/NeurealRewards';
 const ipfsApiGateway = 'https://ipfs.infura.io:5001';
 const ipfsLiveGateway = 'https://cloudflare-ipfs.com';
 
-const netInfo = {
+const netInfo = { // TODO limit this to main network on deploy
   1: { desc: 'Main Ethereum Network', explorer: 'https://etherscan.io', opensea: 'https://opensea.io/assets' },
   4: { desc: 'Rinkeby Test Network', explorer: 'https://rinkeby.etherscan.io', opensea: 'https://rinkeby.opensea.io/assets' },
   1337: { desc: 'Local Network', explorer: '', opensea: '' }
@@ -84,12 +84,12 @@ window.addEventListener('load', async () => {
             try {
               $('#div_error').addClass('w3-hide');
               $('#modal_progress').addClass('w3-show');
-              const minter = $('#div_deploy #input_address').val(); if (!web3.utils.isAddress(minter)) throw new Error('Address is not a correctly formated Ethereum address.');
-              const inputname = $('#div_deploy #input_name').val(); if (inputname.length > 32) throw new Error('Contract name too long.');
-              const inputsymbol = $('#div_deploy #input_symbol').val(); if (inputsymbol.length > 8) throw new Error('Contract symbol too long.');
-              const inputcap = web3.utils.toWei($('#div_deploy #input_cap').val());
-              curContract = await NeurealRewards.deploy({ arguments: [minter, inputcap, inputname, inputsymbol], data: NeurealRewards.options.data }).send();
-              // curContract = await NeurealRewards.deploy({ data: NeurealRewards.options.data }).send();
+              // const minter = $('#div_deploy #input_address').val(); if (!web3.utils.isAddress(minter)) throw new Error('Address is not a correctly formated Ethereum address.');
+              // const inputname = $('#div_deploy #input_name').val(); if (inputname.length > 32) throw new Error('Contract name too long.');
+              // const inputsymbol = $('#div_deploy #input_symbol').val(); if (inputsymbol.length > 8) throw new Error('Contract symbol too long.');
+              // const inputcap = web3.utils.toWei($('#div_deploy #input_cap').val());
+              // curContract = await NeurealRewards.deploy({ arguments: [minter, inputcap, inputname, inputsymbol], data: NeurealRewards.options.data }).send();
+              curContract = await NeurealRewards.deploy({ data: NeurealRewards.options.data }).send();
               window.location.search = 'contract=' + encodeURI(curContract.options.address);
             } catch (err) { error(err); }
             $('#modal_progress').removeClass('w3-show');

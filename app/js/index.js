@@ -3,7 +3,7 @@ import $ from 'jquery';
 import EmbarkJS from 'Embark/EmbarkJS';
 import NeurealRewards from 'Embark/contracts/NeurealRewards';
 
-const netInfo = {
+const netInfo = { // TODO limit this to main network on deploy
   1: { desc: 'Main Ethereum Network', explorer: 'https://etherscan.io', opensea: 'https://opensea.io/assets' },
   4: { desc: 'Rinkeby Test Network', explorer: 'https://rinkeby.etherscan.io', opensea: 'https://rinkeby.opensea.io/assets' },
   1337: { desc: 'Local Network', explorer: '', opensea: '' }
@@ -14,6 +14,7 @@ function error (err) {
   $('#div_error #text_description').text(err);
 }
 
+// TODO test for browser compatibility
 window.addEventListener('load', async () => {
   $('#btn_terms').click(async function () {
     $('#modal_terms').removeClass('w3-show');

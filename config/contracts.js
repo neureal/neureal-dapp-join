@@ -86,9 +86,9 @@ module.exports = {
       'http://localhost:8545',
       '$WEB3' // uses pre existing web3 object if available (e.g in Mist)
     ],
-    contracts: {
-      'NeurealRewards': { args: [ '0xf9311383b518Ed6868126353704dD8139f7A30bE', '99999', 'XYZ NFT', 'XYZT' ] }
-    },
+    // contracts: {
+    //   'NeurealRewards': { args: [ '0xf9311383b518Ed6868126353704dD8139f7A30bE', '99999', 'XYZ NFT', 'XYZT' ] }
+    // },
     deployment: {
       host: 'localhost', // Host of the blockchain node
       port: 8546, // Port of the blockchain node

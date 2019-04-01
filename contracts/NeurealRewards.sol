@@ -16,8 +16,8 @@ contract NeurealRewards is ERC721Full, ERC721MetadataMintable {
     // uint256 public constant OPENING_RATE = 6400;
 
     /*** State Variables ***/
-    uint256 private _cap;
-    function cap() public view returns (uint256) { return _cap; }
+    uint256 public constant CAP = 99999;
+    address public constant MINTER = 0xf9311383b518Ed6868126353704dD8139f7A30bE;
 
     uint256 private _tokenId = 0;
     function tokenId() public view returns (uint256) { return _tokenId; }
@@ -29,11 +29,11 @@ contract NeurealRewards is ERC721Full, ERC721MetadataMintable {
     /*** Events ***/
 
     /* Initializes contract */
-    // constructor(address account) ERC721Full("Neureal Rewards", "NEUR") public {
-    constructor(address minter, uint256 mintcap, string memory name, string memory symbol) ERC721Full(name, symbol) public {
-        _cap = mintcap;
-        addMinter(minter); // Add allocation minter
-    }
+    constructor() ERC721Full("XYZ NFT", "XYZT") public { addMinter(MINTER); }
+    // constructor(address minter, uint256 mintcap, string memory name, string memory symbol) ERC721Full(name, symbol) public {
+    //     _cap = mintcap;
+    //     addMinter(minter); // Add allocation minter
+    // }
 
     function mintWithTokenURI(address to, string calldata tokenURI) external {
         require(mintWithTokenURI(to, _tokenId, tokenURI), "");
