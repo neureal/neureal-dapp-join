@@ -116,7 +116,9 @@ module.exports = {
       //     // hdpath: 'm/44\'/60\'/0\'/0/' // Optional. HD derivation path
       //   }
       // ],
-      host: 'rinkeby.infura.io/v3/3faed45f144b4138a4f32f75367e34a1',
+      // host: 'ropsten.infura.io/v3/3faed45f144b4138a4f32f75367e34a1',
+      // host: 'rinkeby.infura.io/v3/3faed45f144b4138a4f32f75367e34a1',
+      host: 'kovan.infura.io/v3/3faed45f144b4138a4f32f75367e34a1',
       port: false,
       protocol: 'https',
       type: 'rpc' // TODO does Infura websocket (ws) work here?

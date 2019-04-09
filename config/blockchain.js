@@ -126,7 +126,9 @@ module.exports = {
   // used with 'embark run testnet' and/or 'embark blockchain testnet'
   testnet: {
     networkType: 'custom',
-    networkId: '4' // rinkeby
+    // networkId: '3' // Ropsten
+    // networkId: '4' // Rinkeby
+    networkId: '42' // Kovan
     // rpcCorsDomain: 'https://cloudflare-ipfs.com,https://ipfs.infura.io,http://localhost:8080,http://localhost:8000,embark',
     // wsOrigins: 'https://cloudflare-ipfs.com,https://ipfs.infura.io,http://localhost:8080,http://localhost:8000,embark'
     // syncMode: 'light',
@@ -142,7 +144,7 @@ module.exports = {
   // used with 'embark run livenet' and/or 'embark blockchain livenet'
   livenet: {
     networkType: 'custom',
-    networkId: '1' // mainnet
+    networkId: '1' // Mainnet
     // accounts: [
     //   {
     //     nodeAccounts: true,

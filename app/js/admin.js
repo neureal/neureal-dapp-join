@@ -10,7 +10,9 @@ const ipfsLiveGateway = 'https://cloudflare-ipfs.com';
 
 const netInfo = { // TODO limit this to main network on deploy
   1: { desc: 'Main Ethereum Network', explorer: 'https://etherscan.io', opensea: 'https://opensea.io/assets' },
+  3: { desc: 'Ropsten Test Network', explorer: 'https://ropsten.etherscan.io', opensea: '' },
   4: { desc: 'Rinkeby Test Network', explorer: 'https://rinkeby.etherscan.io', opensea: 'https://rinkeby.opensea.io/assets' },
+  42: { desc: 'Kovan Test Network', explorer: 'https://kovan.etherscan.io', opensea: '' },
   1337: { desc: 'Local Network', explorer: '', opensea: '' }
 };
 

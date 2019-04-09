@@ -5,7 +5,9 @@ import NeurealRewards from 'Embark/contracts/NeurealRewards';
 
 const netInfo = { // TODO limit this to main network on deploy
   1: { desc: 'Main Ethereum Network', explorer: 'https://etherscan.io', opensea: 'https://opensea.io/assets' },
+  3: { desc: 'Ropsten Test Network', explorer: 'https://ropsten.etherscan.io', opensea: '' },
   4: { desc: 'Rinkeby Test Network', explorer: 'https://rinkeby.etherscan.io', opensea: 'https://rinkeby.opensea.io/assets' },
+  42: { desc: 'Kovan Test Network', explorer: 'https://kovan.etherscan.io', opensea: '' },
   1337: { desc: 'Local Network', explorer: '', opensea: '' }
 };
 
@@ -43,17 +45,17 @@ window.addEventListener('load', async () => {
         });
 
         $('#btn-send-01').addClass('w3-button');
-        $('#btn-send-01').on('click', function () { send(25, curContract); });
+        $('#btn-send-01').on('click', function () { send(1, curContract); });
         $('#btn-send-02').addClass('w3-button');
-        $('#btn-send-02').on('click', function () { send(100, curContract); });
+        $('#btn-send-02').on('click', function () { send(10, curContract); });
         $('#btn-send-03').addClass('w3-button');
-        $('#btn-send-03').on('click', function () { send(1000, curContract); });
+        $('#btn-send-03').on('click', function () { send(100, curContract); });
       } catch (err) { error(err); }
     });
   });
 });
 
-async function send (usd, curContract) {
+async function send (cards, curContract) {
   try {
     $('#div_error').addClass('w3-hide');
     $('#modal_progress').addClass('w3-show');
@@ -62,8 +64,13 @@ async function send (usd, curContract) {
     console.log(accounts.length);
     const balance = await web3.eth.getBalance(accounts[0]);
     console.log(balance);
-    // if (balance < 25) throw new Error('No accounts available, please choose an account with enough funding.');
-    const val = web3.utils.toWei('0.001', 'ether');
+    const COST_DAI = await curContract.methods.COST_DAI().call();
+    console.log(COST_DAI);
+    const rate = await curContract.methods.getExpectedRate().call();
+    console.log(rate.slippageRate);
+    const ETHCost = (web3.utils.fromWei(COST_DAI) / web3.utils.fromWei(rate.slippageRate)) * cards;
+    // if (balance < ETHCost) throw new Error('No accounts available, please choose an account with enough funding.');
+    const val = web3.utils.toWei(ETHCost.toFixed(9));
     const receipt = await web3.eth.sendTransaction({ from: accounts[0], to: curContract.options.address, value: val });
     // const id = receipt.events['Transfer'].returnValues.tokenId;
     console.log(receipt);
