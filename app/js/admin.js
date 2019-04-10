@@ -114,7 +114,7 @@ window.addEventListener('load', async () => {
         const accounts = await web3.eth.getAccounts();
         if (accounts.length < 1) throw new Error('No accounts available.');
         const divInfo = $('#div_info');
-        for (var i = 0; i < 3 && i < accounts.length; i++) {
+        for (let i = 0; i < 3 && i < accounts.length; i++) {
           const minter = await curContract.methods.isMinter(accounts[i]).call();
           const item = `<p>Using ETH Wallet Account: ${accounts[i]}<br><span class="w3-text-grey">Minter Role? ${minter}</span></p>`;
           divInfo.append(item);
@@ -177,7 +177,7 @@ window.addEventListener('load', async () => {
             const owner = $('#div_list_owner #input_address').val();
             if (!web3.utils.isAddress(owner)) throw new Error('Address is not a correctly formated Ethereum address.');
             const count = await curContract.methods.balanceOf(owner).call();
-            for (var i = 0; i < count; i++) {
+            for (let i = 0; i < count; i++) {
               const id = await curContract.methods.tokenOfOwnerByIndex(owner, i).call();
               const uri = await curContract.methods.tokenURI(id).call();
               const item = `<p id="d"><b>NFT</b> | <a href="${uri}" target="_blank">MetaData</a> | <a href="${netInfo[netid].opensea}/${curContract.options.address}/${id}" target="_blank">OpenSea</a>` +
@@ -193,7 +193,7 @@ window.addEventListener('load', async () => {
             $('#div_error').addClass('w3-hide');
             $('#div_list #span_content #d').remove();
             const count = await curContract.methods.totalSupply().call();
-            for (var i = 0; i < count; i++) {
+            for (let i = 0; i < count; i++) {
               const id = await curContract.methods.tokenByIndex(i).call();
               const owner = await curContract.methods.ownerOf(id).call();
               const uri = await curContract.methods.tokenURI(id).call();
