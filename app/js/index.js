@@ -85,8 +85,8 @@ async function send (cards, contract) {
     let textcards = '';
     if (vals.length > 0) {
       const foils = parseInt(vals.length / 10);
-      const min = vals.reduce((min, p) => p._tokenId < min ? p._tokenId : min, vals[0]._tokenId);
-      const max = vals.reduce((max, p) => p._tokenId > max ? p._tokenId : max, vals[0]._tokenId);
+      const min = vals.reduce((min, p) => Number(p._tokenId) < min ? p._tokenId : min, Number(vals[0]._tokenId));
+      const max = vals.reduce((max, p) => Number(p._tokenId) > max ? p._tokenId : max, Number(vals[0]._tokenId));
 
       textcards = `Congrats, you have been allocated`;
       if (vals.length === 1) textcards += ` card #${vals[0]._tokenId}`;
