@@ -16,7 +16,8 @@ function error (err) {
   $('#div_error #text_description').text(err);
 }
 
-// TODO test for browser compatibility
+// TODO test for browser compatibility (only Chrome works so far)
+// TODO require Metamask
 window.addEventListener('load', async () => {
   $('#modal_terms #btn_accept').click(async function () {
     $('#modal_terms').removeClass('w3-show');
@@ -28,7 +29,7 @@ window.addEventListener('load', async () => {
       try {
         // ** Check blockchain
         if (err) return;
-        console.log('blockchain OK');
+        console.log('Blockchain OK');
 
         // ** Main
         const contractAddr = $('#contract_address').text();

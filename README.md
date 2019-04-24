@@ -10,7 +10,7 @@ Compatible with OpenSea https://opensea.io/
 ## Development Requirements
 
 https://embark.status.im/docs/installation.html
-- install the latest, ie `npm -g install embark`
+- install the latest, ie `npm -g install embark@4.0.2`
 - make sure to install local Geth and IPFS
 
 `npm install`
@@ -33,6 +33,5 @@ Deploy to public testnet (Rinkeby + IPFS)
 
 - `embark upload testnet`
 - must be running `ipfs daemon` in seperate console
-- `ipfs pin add -r <your-site-ipfs-hash>/`
 - access at `https://cloudflare-ipfs.com/ipfs/<your-site-ipfs-hash>`
 

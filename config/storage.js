@@ -46,8 +46,8 @@ module.exports = {
     dappConnection: [
       {
         provider: 'ipfs',
-        host: 'ipfs.infura.io',
-        port: 5001,
+        host: 'ipfs.neureal.io',
+        port: 8443,
         protocol: 'https',
         getUrl: 'https://ipfs.infura.io/ipfs/'
       }
@@ -62,8 +62,8 @@ module.exports = {
     dappConnection: [
       {
         provider: 'ipfs',
-        host: 'ipfs.infura.io',
-        port: 5001,
+        host: 'ipfs.neureal.io',
+        port: 8443,
         protocol: 'https',
         getUrl: 'https://ipfs.infura.io/ipfs/'
       }

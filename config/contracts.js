@@ -17,7 +17,7 @@ module.exports = {
     //            when not specified
     // - explicit will only attempt to deploy the contracts that are explicity specified inside the
     //            contracts section.
-    // strategy: 'explicit', // TODO not working in Embark 3.2.7
+    // strategy: 'explicit',
 
     contracts: {
       'SafeMath': { deploy: false },
@@ -72,7 +72,7 @@ module.exports = {
     // },
     versions: {
       'web3': '1.0.0-beta', // = '1.0.0-beta.37'
-      // TODO 'web3': '1.0.0-beta.51',
+      // TODO 'web3': '1.0.0-beta.52',
       'solc': '0.5.2'
       // TODO 'solc': '0.5.7'
     }

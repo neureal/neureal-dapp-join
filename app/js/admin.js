@@ -1,11 +1,11 @@
-/* globals web3 fetch */
+/* globals web3 */
 import $ from 'jquery';
 import EmbarkJS from 'Embark/EmbarkJS';
 import NeurealRewards from 'Embark/contracts/NeurealRewards';
 // import EmbarkJS from './embarkArtifacts/embarkjs';
 // import Token from './embarkArtifacts/contracts/Token';
 
-const ipfsApiGateway = 'https://ipfs.infura.io:5001';
+const ipfsApiProvider = ipfsOptionsURL('https://ipfs.neureal.io:8443');
 const ipfsLiveGateway = 'https://cloudflare-ipfs.com';
 
 const netInfo = { // TODO limit this to main network on deploy
@@ -15,6 +15,11 @@ const netInfo = { // TODO limit this to main network on deploy
   42: { desc: 'Kovan Test Network', explorer: 'https://kovan.etherscan.io', opensea: '' },
   1337: { desc: 'Local Network', explorer: '', opensea: '' }
 };
+
+function ipfsOptionsURL (urltxt) {
+  const url = new URL(urltxt);
+  return { host: url.hostname, port: url.port, protocol: url.protocol.slice(0, -1), getUrl: `${url.protocol}//${url.hostname}/ipfs/` };
+}
 
 function error (err) {
   $('#div_error').removeClass('w3-hide');
@@ -30,16 +35,6 @@ function error (err) {
 //   return inv;
 // }
 
-async function pinIpfs (gateway, hash) {
-  if (gateway === null) return;
-  const call = `${gateway}/api/v0/pin/add?arg=/ipfs/${hash}&recursive=true`;
-  const response = await fetch(call);
-  if (!response.ok) throw new Error('pinIpfs HTTP error, status = ' + response.status);
-  const json = await response.text();
-  const hashRsp = JSON.parse(json)['Pins'];
-  return (hashRsp) ? hashRsp[0] === hash : false;
-}
-
 window.addEventListener('load', async () => {
   try {
     if (!window.ethereum && !window.web3) throw new Error('Non-Ethereum browser detected.');
@@ -50,14 +45,14 @@ window.addEventListener('load', async () => {
       try {
         // ** Check blockchain
         if (err) throw new Error(err);
-        console.log('blockchain OK');
+        console.log('Blockchain OK');
         // // ** Check communication
         // await EmbarkJS.Messages.Providers.whisper.getWhisperVersion();
         // console.log('whisper OK');
         // ** Check storage
         const result = await EmbarkJS.Storage.isAvailable();
         if (!result) throw new Error('Storage not available.');
-        console.log('storage OK');
+        console.log('Storage OK');
         // console.log('web3.version: ', web3.version);
 
         // ** Main
@@ -65,10 +60,17 @@ window.addEventListener('load', async () => {
         const netid = await web3.eth.net.getId();
         if (netInfo[netid] === undefined) throw new Error(`Incompatable network for this dapp. Please choose ${netInfo[Object.keys(netInfo)[0]].desc}.`);
 
-        // Get current contract address
+        // Setup objects
         const urlParams = new URLSearchParams(window.location.search);
-        const ipfsApiGtwyBkupHost = urlParams.get('ipfs');
-        const ipfsApiGtwyBkup = (ipfsApiGtwyBkupHost === null) ? null : (new URL(`https://${ipfsApiGtwyBkupHost}`)).toString().slice(0, -1);
+        const ipfsUrl = urlParams.get('ipfs');
+        const ipfsApiPvdrBkup = (ipfsUrl === null) ? null : ipfsOptionsURL(ipfsUrl);
+        if (ipfsApiPvdrBkup !== null) {
+          EmbarkJS.Storage.setProvider('ipfs', ipfsApiPvdrBkup);
+          const result = await EmbarkJS.Storage.isAvailable();
+          if (!result) throw new Error('Backup storage not available.');
+          console.log('Backup Storage OK');
+          EmbarkJS.Storage.setProvider('ipfs', ipfsApiProvider);
+        }
         const contractAddr = urlParams.get('contract');
         if (web3.utils.isAddress(contractAddr)) {
           curContract = new EmbarkJS.Blockchain.Contract({
@@ -89,7 +91,7 @@ window.addEventListener('load', async () => {
               // const minter = $('#div_deploy #input_address').val(); if (!web3.utils.isAddress(minter)) throw new Error('Address is not a correctly formated Ethereum address.');
               // const inputname = $('#div_deploy #input_name').val(); if (inputname.length > 32) throw new Error('Contract name too long.');
               // const inputsymbol = $('#div_deploy #input_symbol').val(); if (inputsymbol.length > 8) throw new Error('Contract symbol too long.');
-              // const inputcap = web3.utils.toWei($('#div_deploy #input_cap').val());
+              // const inputcap = web3.utils.toBN($('#div_deploy #input_cap').val()).toString();
               // curContract = await NeurealRewards.deploy({ arguments: [minter, inputcap, inputname, inputsymbol], data: NeurealRewards.options.data }).send();
               curContract = await NeurealRewards.deploy({ data: NeurealRewards.options.data }).send();
               window.location.search = 'contract=' + encodeURI(curContract.options.address);
@@ -110,15 +112,14 @@ window.addEventListener('load', async () => {
         $('#div_info #text_symbol').text(symbol);
         $('#div_info #text_network').text(netInfo[netid].desc);
         $('#div_info #text_address').text(curContract.options.address);
-        $('#div_info #text_details').html(`<a href="${netInfo[netid].explorer}/address/${curContract.options.address}" target="_blank">View Contract Details</a>`);
+        $('#div_info #text_details').html(`&rarr; <a href="${netInfo[netid].explorer}/address/${curContract.options.address}" target="_blank">View&nbsp;Contract&nbsp;Details</a>`);
         const accounts = await web3.eth.getAccounts();
-        if (accounts.length < 1) throw new Error('No accounts available.');
-        const divInfo = $('#div_info');
-        for (let i = 0; i < 3 && i < accounts.length; i++) {
-          const minter = await curContract.methods.isMinter(accounts[i]).call();
-          const item = `<p>Using ETH Wallet Account: ${accounts[i]}<br><span class="w3-text-grey">Minter Role? ${minter}</span></p>`;
-          divInfo.append(item);
-        }
+        if (accounts.length < 1) throw new Error('No Ethereum accounts available.');
+        const minter = await curContract.methods.isMinter(accounts[0]).call();
+        $('#div_info').append(`<p>Using ETH Wallet Account ${accounts[0]}<span class="w3-margin-left w3-text-grey">&rarr; Minter&nbsp;Role?&nbsp;${minter}</span></p>`);
+        const curId = await curContract.methods.tokenId().call();
+        const cap = await curContract.methods.MAX_SUPPLY().call();
+        $('#div_info').append(`<p><b id="text_curid">${curId}</b> of <b>${cap}</b> minted</p>`);
 
         // Mint NFT
         // $('#div_mint #input_json').val(jsonex);
@@ -135,21 +136,32 @@ window.addEventListener('load', async () => {
             const inputimageurl = $('#div_mint #input_image_url');
             if (inputimageurl.prop('files').length > 0) {
               const hash = await EmbarkJS.Storage.uploadFile(inputimageurl);
-              await pinIpfs(ipfsApiGateway, hash); await pinIpfs(ipfsApiGtwyBkup, hash);
+              if (ipfsApiPvdrBkup !== null) {
+                EmbarkJS.Storage.setProvider('ipfs', ipfsApiPvdrBkup);
+                await EmbarkJS.Storage.uploadFile(inputimageurl);
+                EmbarkJS.Storage.setProvider('ipfs', ipfsApiProvider);
+              }
               json['image_url'] = ipfsLiveGateway + '/ipfs/' + hash;
             }
             const inputname = $('#div_mint #input_name').val(); if (inputname !== '') json['name'] = inputname;
             const inputdescription = $('#div_mint #input_description').val(); if (inputdescription !== '') json['description'] = inputdescription;
             const inputbackgroundcolor = $('#div_mint #input_background_color').val(); if (inputbackgroundcolor !== '') json['background_color'] = inputbackgroundcolor;
             const inputtraits = JSON.parse('[' + $('#div_mint #input_traits').val() + ']'); if (inputtraits.length > 0) json['traits'] = inputtraits;
-            const hash = await EmbarkJS.Storage.saveText(JSON.stringify(json));
-            await pinIpfs(ipfsApiGateway, hash); await pinIpfs(ipfsApiGtwyBkup, hash);
+            json = JSON.stringify(json);
+            const hash = await EmbarkJS.Storage.saveText(json);
+            if (ipfsApiPvdrBkup !== null) {
+              EmbarkJS.Storage.setProvider('ipfs', ipfsApiPvdrBkup);
+              await EmbarkJS.Storage.saveText(json);
+              EmbarkJS.Storage.setProvider('ipfs', ipfsApiProvider);
+            }
             const uri = ipfsLiveGateway + '/ipfs/' + hash; // 'fs:/ipfs/','/ipfs/','ipfs/' didn't work on OpenSea
             const receipt = await curContract.methods.mintWithTokenURI(owner, uri).send();
             const id = receipt.events['Transfer'].returnValues.tokenId;
             const item = `<p id="d"><b>NFT</b> | <a href="${uri}" target="_blank">MetaData</a> | <a href="${netInfo[netid].opensea}/${curContract.options.address}/${id}" target="_blank">OpenSea</a>` +
             ` | <a href="${netInfo[netid].explorer}/token/${curContract.options.address}?a=${id}" target="_blank">History</a> | ID[${id}]</p>`;
             $('#div_mint #span_content').append(item);
+            const curId = await curContract.methods.tokenId().call();
+            $('#div_info #text_curid').text(curId);
           } catch (err) { error(err); }
           $('#modal_progress').removeClass('w3-show');
         });
