@@ -33,10 +33,13 @@
     <span id="span_admin" class="w3-hide">
       <div id="div_info" class="w3-panel">
         <h3 class="w3-padding-small w3-leftbar w3-lime"><img class="w3-left w3-margin-right" height="38" src="static/app/images/neureal-logo-light-blue.svg" alt="Neureal"><b id="text_name"></b> (<b id="text_symbol"></b>) Administration</h3>
-        <p>Network <b id="text_network"></b></p>
-        <p>Contract Address <b id="text_address"></b><span id="text_details" class="w3-margin-left w3-text-grey"></span></p>
+        <p><span class="w3-margin-right">Network</span> <b id="text_network"></b></p>
+        <p><span class="w3-margin-right">Contract Address</span> <b id="text_address"></b><span id="text_details" class="w3-margin-left w3-text-grey"></span></p>
+        <p><span class="w3-margin-right">Using ETH Wallet Account</span> <span id="text_account"></span><span class="w3-margin-left w3-text-grey">&rarr; Minter&nbsp;Role?&nbsp;<span id="text_minter"></span></span></p>
+        <p><span class="w3-margin-right">Allocated</span> <b id="text_curId"></b>&nbsp;of&nbsp;<b id="text_cap"></b></p>
+        <p><span class="w3-margin-right">Balances</span> <b id="text_balDAI"></b>&nbsp;DAI <span class="w3-margin">|</span> <b id="text_balETH"></b>&nbsp;ETH</p>
       </div>
-      
+
       <div id="div_mint" class="w3-panel">
         <h3 id="hdr" class="w3-button w3-block w3-left-align w3-padding-small w3-leftbar w3-lime w3-hover-khaki">Mint and Send NFT</h3>
         <span id="span_content" class="w3-hide">
@@ -53,6 +56,14 @@
           <label class="w3-text-grey">Attributes</label>
           <textarea id="input_traits" class="w3-input w3-border" rows="4"></textarea><br>
           <button id="button_execute" class="w3-button w3-sand w3-hover-khaki">Send</button>
+        </span>
+      </div>
+
+      <div id="div_withdraw" class="w3-panel">
+        <h3 id="hdr" class="w3-button w3-block w3-left-align w3-padding-small w3-leftbar w3-lime w3-hover-khaki">Withdraw From Contract</h3>
+        <span id="span_content" class="w3-hide">
+          <button id="button_DAI" class="w3-button w3-sand w3-hover-khaki w3-margin-right">Withdraw DAI</button>
+          <button id="button_ETH" class="w3-button w3-sand w3-hover-khaki">Withdraw ETH</button>
         </span>
       </div>
 

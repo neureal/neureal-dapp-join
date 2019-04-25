@@ -9,10 +9,10 @@ const ipfsApiProvider = ipfsOptionsURL('https://ipfs.neureal.io:8443');
 const ipfsLiveGateway = 'https://cloudflare-ipfs.com';
 
 const netInfo = { // TODO limit this to main network on deploy
-  1: { desc: 'Main Ethereum Network', explorer: 'https://etherscan.io', opensea: 'https://opensea.io/assets' },
+  1: { desc: 'Main Ethereum Network', explorer: 'https://etherscan.io', opensea: 'https://opensea.io/assets', DAI: '0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359' },
   3: { desc: 'Ropsten Test Network', explorer: 'https://ropsten.etherscan.io', opensea: '' },
   4: { desc: 'Rinkeby Test Network', explorer: 'https://rinkeby.etherscan.io', opensea: 'https://rinkeby.opensea.io/assets' },
-  42: { desc: 'Kovan Test Network', explorer: 'https://kovan.etherscan.io', opensea: '' },
+  42: { desc: 'Kovan Test Network', explorer: 'https://kovan.etherscan.io', opensea: '', DAI: '0xC4375B7De8af5a38a93548eb8453a498222C4fF2' },
   1337: { desc: 'Local Network', explorer: '', opensea: '' }
 };
 
@@ -100,6 +100,7 @@ window.addEventListener('load', async () => {
           });
           return;
         }
+        $('#div_withdraw #hdr').click(async function () { $('#div_withdraw #span_content').toggleClass('w3-hide'); });
         $('#div_mint #hdr').click(async function () { $('#div_mint #span_content').toggleClass('w3-hide'); });
         $('#div_list_id #hdr').click(async function () { $('#div_list_id #span_content').toggleClass('w3-hide'); });
         $('#div_list_owner #hdr').click(async function () { $('#div_list_owner #span_content').toggleClass('w3-hide'); });
@@ -116,10 +117,45 @@ window.addEventListener('load', async () => {
         const accounts = await web3.eth.getAccounts();
         if (accounts.length < 1) throw new Error('No Ethereum accounts available.');
         const minter = await curContract.methods.isMinter(accounts[0]).call();
-        $('#div_info').append(`<p>Using ETH Wallet Account ${accounts[0]}<span class="w3-margin-left w3-text-grey">&rarr; Minter&nbsp;Role?&nbsp;${minter}</span></p>`);
+        $('#div_info #text_account').text(accounts[0]); $('#div_info #text_minter').text(minter);
         const curId = await curContract.methods.tokenId().call();
         const cap = await curContract.methods.MAX_SUPPLY().call();
-        $('#div_info').append(`<p><b id="text_curid">${curId}</b> of <b>${cap}</b> minted</p>`);
+        $('#div_info #text_curId').text(curId); $('#div_info #text_cap').text(cap);
+        const balDAI = await curContract.methods.getTokenBalance(netInfo[netid].DAI).call();
+        const balETH = await web3.eth.getBalance(curContract.options.address);
+        $('#div_info #text_balDAI').text(web3.utils.fromWei(balDAI)); $('#div_info #text_balETH').text(web3.utils.fromWei(balETH));
+
+        // Withdraw DAI
+        $('#div_withdraw #button_DAI').click(async function () {
+          try {
+            $('#div_error').addClass('w3-hide');
+            $('#modal_progress').addClass('w3-show');
+            $('#div_withdraw #span_content #d').remove();
+            const receipt = await curContract.methods.withdrawToken(netInfo[netid].DAI).send();
+            // TODO Embark is not returning from the previous await because its not detecting the transaction finishing
+            // const amount = receipt.events['TokenWithdraw'].returnValues.amount;
+            const balDAI = await curContract.methods.getTokenBalance(netInfo[netid].DAI).call();
+            $('#div_info #text_balDAI').text(web3.utils.fromWei(balDAI));
+            // $('#div_withdraw #span_content').append(`<p id="d"><b>SUCCESS</b> | <b>${web3.utils.fromWei(amount)}</b> DAI withdrawn</p>`);
+          } catch (err) { error(err); }
+          $('#modal_progress').removeClass('w3-show');
+        });
+
+        // Withdraw ETH
+        $('#div_withdraw #button_ETH').click(async function () {
+          try {
+            $('#div_error').addClass('w3-hide');
+            $('#modal_progress').addClass('w3-show');
+            $('#div_withdraw #span_content #d').remove();
+            // TODO I have not tested if any of this works
+            const receipt = await curContract.methods.withdrawEther().send();
+            const amount = receipt.events['EtherWithdraw'].returnValues.amount;
+            const balETH = await web3.eth.getBalance(curContract.options.address);
+            $('#div_info #text_balETH').text(web3.utils.fromWei(balETH));
+            $('#div_withdraw #span_content').append(`<p id="d"><b>SUCCESS</b> | <b>${web3.utils.fromWei(amount)}</b> ETH withdrawn</p>`);
+          } catch (err) { error(err); }
+          $('#modal_progress').removeClass('w3-show');
+        });
 
         // Mint NFT
         // $('#div_mint #input_json').val(jsonex);
@@ -161,7 +197,7 @@ window.addEventListener('load', async () => {
             ` | <a href="${netInfo[netid].explorer}/token/${curContract.options.address}?a=${id}" target="_blank">History</a> | ID[${id}]</p>`;
             $('#div_mint #span_content').append(item);
             const curId = await curContract.methods.tokenId().call();
-            $('#div_info #text_curid').text(curId);
+            $('#div_info #text_curId').text(curId);
           } catch (err) { error(err); }
           $('#modal_progress').removeClass('w3-show');
         });

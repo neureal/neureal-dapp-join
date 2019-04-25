@@ -28,7 +28,7 @@ contract NeurealRewards is ERC721Full, ERC721MetadataMintable {
     IERC20 public constant ETH_TOKEN_ADDRESS = IERC20(0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE); // Same for all networks
     
     
-    uint256 public constant MAX_SUPPLY = 150; // Maximum tokens possible to mint
+    uint256 public constant MAX_SUPPLY = 115; // Maximum tokens possible to mint
     uint256 public constant COST_DAI = 1 * 10**17; // TODO set DAI price of single card here
 
     address private _owner; // Contract creator
@@ -43,8 +43,6 @@ contract NeurealRewards is ERC721Full, ERC721MetadataMintable {
     
     /*** Events ***/
     event TokenPurchase(uint256 _tokenId);
-    event TokenWithdraw(IERC20 token, uint256 amount, address sendTo);
-    event EtherWithdraw(uint256 amount, address sendTo);
 
     /* Initializes contract */
     // TODO change name before making live
@@ -68,12 +66,12 @@ contract NeurealRewards is ERC721Full, ERC721MetadataMintable {
     // TODO add ability to detect DAI and other ERC20 tokens on Kyber that are sent to the contract and allocate NFT to value
     // https://www.wealdtech.com/articles/ethereum-smart-service-payment-with-tokens/
 
-    // /* Manual minting */
-    // function mintWithTokenURI(address to, string calldata tokenURI) external {
-    //     require(_tokenId < MAX_SUPPLY, ""); // Contract is finished, everything is minted
-    //     require(mintWithTokenURI(to, _tokenId, tokenURI), "");
-    //     _tokenId = _tokenId.add(1);
-    // }
+    /* Manual minting */
+    function mintWithTokenURI(address to, string calldata tokenURI) external {
+        require(_tokenId < MAX_SUPPLY, ""); // Contract is finished, everything is minted
+        require(mintWithTokenURI(to, _tokenId, tokenURI), "");
+        _tokenId = _tokenId.add(1);
+    }
 
     /* Current ETH/DAI market rate */
     function getExpectedRate() external view returns(uint256 expectedRate, uint256 slippageRate) {
@@ -113,7 +111,7 @@ contract NeurealRewards is ERC721Full, ERC721MetadataMintable {
         // uint256 refund = msg.value.mod(COST_WEI);
     }
 
-    /* Actually mint the allocated token, every token must be allocated before minting */
+    /* Mint an allocated token, every token must be allocated before minting */
     function mintAllocated(uint256 allocatedTokenId, string calldata tokenURI) external {
         require(allocatedTokenId < _tokenId, ""); // Restrict to currently allocated tokens
         address to = _tokenAllocation[allocatedTokenId];
@@ -121,25 +119,31 @@ contract NeurealRewards is ERC721Full, ERC721MetadataMintable {
         require(mintWithTokenURI(to, allocatedTokenId, tokenURI), "");
     }
 
-    /* Withdraw all current available ETH in contract */
-    function withdrawEther() external {
-        require(msg.sender == _owner, ""); // Only owner
-        uint256 amount = address(this).balance;
-        require(amount > 0, ""); // Don't call transfer if nothing available
-        NEUREAL_ETH_WALLET.transfer(amount); // This works with our multisig (using 2300 gas stipend)
-        // require(NEUREAL_ETH_WALLET.call.value(amount)(), ""); // alternative to be able to send more gas
-
-        emit EtherWithdraw(amount, NEUREAL_ETH_WALLET);
+    /* Current available specified ERC20 token in contract */
+    function getTokenBalance(IERC20 token) external view returns(uint256 tokenBalance) {
+        return token.balanceOf(address(this));
     }
 
     /* Withdraw all current available specified ERC20 token in contract */
-    // TODO send all token to NEUREAL_ETH_WALLET
     function withdrawToken(IERC20 token) external {
         require(msg.sender == _owner, ""); // Only owner
         uint256 amount = token.balanceOf(address(this));
         require(amount > 0, ""); // Don't call transfer if nothing available
+        // emit TokenWithdraw(token, amount, NEUREAL_ETH_WALLET);
+        // TODO Embark fails to recognize this transaction finishing because of this external function call
         require(token.transfer(NEUREAL_ETH_WALLET, amount), "");
-
-        emit TokenWithdraw(token, amount, NEUREAL_ETH_WALLET);
     }
+    // event TokenWithdraw(IERC20 token, uint256 amount, address sendTo);
+
+    /* Withdraw all current available ETH in contract, this is for failsafe purposes only */
+    function withdrawEther() external {
+        // TODO I have not tested if this works
+        require(msg.sender == _owner, ""); // Only owner
+        uint256 amount = address(this).balance;
+        require(amount > 0, ""); // Don't call transfer if nothing available
+        // emit EtherWithdraw(amount, NEUREAL_ETH_WALLET);
+        NEUREAL_ETH_WALLET.transfer(amount); // This works with our multisig (using 2300 gas stipend)
+        // require(NEUREAL_ETH_WALLET.call.value(amount)(), ""); // alternative to be able to send more gas
+    }
+    // event EtherWithdraw(uint256 amount, address sendTo);
 }
