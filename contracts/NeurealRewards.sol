@@ -66,12 +66,12 @@ contract NeurealRewards is ERC721Full, ERC721MetadataMintable {
     // TODO add ability to detect DAI and other ERC20 tokens on Kyber that are sent to the contract and allocate NFT to value
     // https://www.wealdtech.com/articles/ethereum-smart-service-payment-with-tokens/
 
-    /* Manual minting */
-    function mintWithTokenURI(address to, string calldata tokenURI) external {
-        require(_tokenId < MAX_SUPPLY, ""); // Contract is finished, everything is minted
-        require(mintWithTokenURI(to, _tokenId, tokenURI), "");
-        _tokenId = _tokenId.add(1);
-    }
+    // /* Manual minting */
+    // function mintWithTokenURI(address to, string calldata tokenURI) external {
+    //     require(_tokenId < MAX_SUPPLY, ""); // Contract is finished, everything is minted
+    //     require(mintWithTokenURI(to, _tokenId, tokenURI), "");
+    //     _tokenId = _tokenId.add(1);
+    // }
 
     /* Current ETH/DAI market rate */
     function getExpectedRate() external view returns(uint256 expectedRate, uint256 slippageRate) {

@@ -165,9 +165,7 @@ window.addEventListener('load', async () => {
             $('#div_error').addClass('w3-hide');
             $('#modal_progress').addClass('w3-show');
             $('#div_mint #span_content #d').remove();
-            const owner = $('#div_mint #input_address').val();
-            if (!web3.utils.isAddress(owner)) throw new Error('Address is not a correctly formated Ethereum address.');
-            // const id = inputToUint256($('#div_mint #input_id').val());
+            const id = web3.utils.toBN($('#div_mint #input_id').val()).toString();
             let json = {};
             const inputimageurl = $('#div_mint #input_image_url');
             if (inputimageurl.prop('files').length > 0) {
@@ -191,10 +189,10 @@ window.addEventListener('load', async () => {
               EmbarkJS.Storage.setProvider('ipfs', ipfsApiProvider);
             }
             const uri = ipfsLiveGateway + '/ipfs/' + hash; // 'fs:/ipfs/','/ipfs/','ipfs/' didn't work on OpenSea
-            const receipt = await curContract.methods.mintWithTokenURI(owner, uri).send();
-            const id = receipt.events['Transfer'].returnValues.tokenId;
+            const receipt = await curContract.methods.mintAllocated(id, uri).send();
+            const owner = receipt.events['Transfer'].returnValues.to;
             const item = `<p id="d"><b>NFT</b> | <a href="${uri}" target="_blank">MetaData</a> | <a href="${netInfo[netid].opensea}/${curContract.options.address}/${id}" target="_blank">OpenSea</a>` +
-            ` | <a href="${netInfo[netid].explorer}/token/${curContract.options.address}?a=${id}" target="_blank">History</a> | ID[${id}]</p>`;
+            ` | <a href="${netInfo[netid].explorer}/token/${curContract.options.address}?a=${id}" target="_blank">History</a> | ID[${id}] Owner[${owner}]</p>`;
             $('#div_mint #span_content').append(item);
             const curId = await curContract.methods.tokenId().call();
             $('#div_info #text_curId').text(curId);
