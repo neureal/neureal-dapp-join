@@ -17,10 +17,15 @@
       <div class="w3-modal-content w3-card-4 w3-round-xlarge w3-padding">
         <header class="w3-panel w3-center w3-montserrat-large">Title Goes Here</header>
         <div class="w3-row w3-center">
-          <div class="w3-panel w3-quarter"><img class="terms-icons" src="static/app/images/icons/social-github.svg"></div>
-          <div class="w3-panel w3-quarter"><img class="terms-icons" src="static/app/images/icons/social-telegram.png"></div>
-          <div class="w3-panel w3-quarter"><img class="terms-icons" src="static/app/images/icons/social-youtube.svg"></div>
-          <div class="w3-panel w3-quarter"><img class="terms-icons" src="static/app/images/icons/social-linkedin.svg"></div>
+          <div class="w3-panel w3-third"><img class="terms-icons" src="static/app/images/icons/social-github.svg"></div>
+          <div class="w3-panel w3-third"><img class="terms-icons" src="static/app/images/icons/social-telegram.png"></div>
+          <div class="w3-panel w3-third"><img class="terms-icons" src="static/app/images/icons/social-youtube.svg"></div>
+        </div>
+        <div class="w3-panel w3-montserrat">
+          <p>Our projects are Numina, Nacient, Nina</p>
+        </div>
+        <div class="w3-panel w3-montserrat">
+          <p>Please donate so we can make cool shit!</p>
         </div>
         <span id="span_required">
           <div class="w3-panel w3-center w3-montserrat-bold">Ethereum wallet and supported browser is required</div>
@@ -45,60 +50,86 @@
       <div class="w3-modal-content w3-card-4 w3-round-xlarge w3-padding">
         <div class="w3-panel w3-center w3-montserrat-large">Thank you for your donation!!</div>
         <div id="text_cards" class="w3-panel w3-center w3-montserrat"></div>
-        
         <a href="https://rinkeby.opensea.io/account" target="_blank" class="w3-btn w3-block w3-border w3-border-blue w3-text-blue w3-montserrat-bold">OpenSea</a>
         <footer class="w3-panel"><button id="btn_accept" class="w3-btn w3-block w3-border w3-border-blue w3-text-blue w3-montserrat-bold">YAY!</button></footer>
       </div>
     </div>
 
-    <span id="span_sale">
-      <div id="menu" class="w3-top">
-        <div class="w3-bar w3-card w3-white w3-wide">
-          <a href="#banner" class="w3-bar-item">
-            <img src="static/app/images/neureal-logo-light-blue.svg" alt="Home">
-          </a>
-          <!-- <a href="#video" class="w3-bar-item w3-montserrat-bold">VIDEO</a> -->
-        </div>
-        <div id="div_error" class="w3-pale-red w3-leftbar w3-hide">
-            <div class="w3-container">Something Went Wrong</div>
-            <div id="text_description" class="w3-container w3-tiny">Unknown Error</div>
-        </div>
+    <div id="menu" class="w3-top">
+      <div class="w3-bar w3-card w3-wide w3-white">
+        <a href="#donate" class="w3-bar-item">
+          <img class="logo-size w3-left" src="static/app/images/neureal-logo-light-blue.svg" alt="Home">
+        </a>
+        <!-- <a href="#video" class="w3-bar-item w3-montserrat-large">VIDEO</a> -->
       </div>
+      <div id="div_error" class="w3-pale-red w3-leftbar w3-hide">
+          <div class="w3-container">Something Went Wrong</div>
+          <div id="text_description" class="w3-container w3-tiny">Unknown Error</div>
+      </div>
+    </div>
 
+    <span id="span_sale">
       <div id="banner" class="w3-display-container w3-animate-opacity banner">
-        <div class="w3-container">
-          <span class="w3-center w3-padding-large w3-display-topmiddle">
-            <img class="logo-size" src="static/app/images/neureal-logo-icon-white.svg" alt="Neureal">
-          </span>
+
+        <div class="w3-container w3-center">
+          <div class="w3-panel w3-margin-top w3-montserrat-large w3-text-dark-gray">FOUNDATION DONATIONS</div>
+          <div id="contract_address" class="w3-panel w3-text-white w3-montserrat-bold contract-text">0x6e03B6C5eC61fdB0354894A07eFB8C9c950B815D</div>
+          <div class="w3-panel w3-montserrat-small">Send ETH to this address</div>
         </div>
-        <div class="w3-content w3-text-white w3-montserrat banner-rewards">
-          <div class="w3-row w3-center">
-            <div class="w3-panel w3-third">
-              <div id="btn-send-01" class="w3-round-large theme-orange-light w3-montserrat-bold btn-join">Donate</div>
-              <div class="w3-container">Reward: 1 card</div>
+
+        <div class="w3-row">
+
+          <div class="w3-container w3-twothird w3-mobile">
+            <div class="w3-panel w3-text-white w3-montserrat-large">Numina</div>
+            <div class="w3-panel w3-montserrat-bold">
+              <p>Description of the purpose. Somthing need to go here to describe in more detail.</p>
+              <p>More description.</p>
             </div>
-            <div class="w3-panel w3-third">
-              <div id="btn-send-02" class="w3-round-large theme-orange-light w3-montserrat-bold btn-join">Donate pack</div>
-              <div class="w3-container">Reward: pack of 10 cards</div>
+            <div class="w3-panel w3-text-white w3-montserrat-large">Nascent</div>
+            <div class="w3-panel w3-montserrat-bold">
+              <p>Description of the purpose. Somthing need to go here to describe in more detail.</p>
+              <p>More description.</p>
             </div>
-            <div class="w3-panel w3-third">
-              <div id="btn-send-03" class="w3-round-large theme-orange-light w3-montserrat-bold btn-join">Donate uber pack</div>
-              <div class="w3-container">Reward: pack of 100 cards</div>
+            <div class="w3-panel w3-text-white w3-montserrat-large">Nina</div>
+            <div class="w3-panel w3-montserrat-bold">
+              <p>Description of the purpose. Somthing need to go here to describe in more detail.</p>
+              <p>More description.</p>
+            </div>
+            <div class="w3-panel w3-text-white w3-montserrat-large">Foundation Purpose</div>
+            <div class="w3-panel w3-montserrat-bold">
+              <p>Description of the purpose. Somthing need to go here to describe in more detail.</p>
+              <p>More description.</p>
             </div>
           </div>
+
+          <div id="donate" class="w3-container w3-third w3-center w3-mobile">
+            <div class="w3-panel w3-padding-large">
+              <img class="logo-icon-size" src="static/app/images/neureal-logo-icon-white.svg" alt="Neureal">
+            </div>
+            <div class="w3-container">
+              <div class="w3-panel w3-card-4 w3-round-xlarge w3-padding w3-animate-opacity w3-black">
+                <div id="btn-send-01" class="w3-round-large theme-orange-light w3-montserrat-bold btn-join">Donate</div>
+                <div class="w3-panel w3-montserrat-bold">Reward: 1 card</div>
+                <img class="card-size" src="static/app/images/card.png" alt="Card">
+              </div>
+              <div class="w3-panel w3-card-4 w3-round-xlarge w3-padding w3-animate-opacity w3-black">
+                <div id="btn-send-02" class="w3-round-large theme-orange-light w3-montserrat-bold btn-join">Donate Pack</div>
+                <div class="w3-panel w3-montserrat-bold">Reward: pack of 10 cards</div>
+                <img class="card-size" src="static/app/images/card-pack.png" alt="Card">
+              </div>
+              <div class="w3-panel w3-card-4 w3-round-xlarge w3-padding w3-animate-opacity w3-black">
+                <div id="btn-send-03" class="w3-round-large theme-orange-light w3-montserrat-bold btn-join">Donate Uber Pack</div>
+                <div class="w3-panel w3-montserrat-bold">Reward: pack of 100 cards</div>
+                <img class="card-size" src="static/app/images/card-uber.png" alt="Card">
+              </div>
+            </div>
+          </div>
+
         </div>
-        <div class="w3-container w3-text-white w3-center">
-          <div id="contract_address" class="w3-panel w3-montserrat-large">0x6e03B6C5eC61fdB0354894A07eFB8C9c950B815D</div>
-          <div class="w3-panel w3-montserrat-small">Send ETH or DAI to this address</div>
-        </div>
-        <div class="w3-container w3-text-white w3-center">
-          <div class="w3-panel w3-montserrat-large">Purpose</div>
-          <div class="w3-panel w3-montserrat-small">Description of the purpose. Somthing need to go here to describe in more detail.</div>
-          <div class="w3-panel w3-montserrat-small">More description.</div>
-        </div>
+
       </div>
 
-      <div id="status" class="w3-display-container status">
+      <!-- <div id="status" class="w3-display-container status">
         <div class="w3-content w3-card-4 w3-round-xlarge w3-animate-opacity w3-white">
           <div class="w3-container">
             <div class="w3-left w3-text-dark-gray w3-montserrat-bold"><p>ETH RAISED</p></div>
@@ -110,7 +141,7 @@
             <div class="w3-right w3-text-orange w3-montserrat-bold"><p>200,000 ETH</p></div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- <div id="video" class="w3-content w3-padding-large">
         <div class="w3-container w3-margin-top">
@@ -122,10 +153,10 @@
 
       <div id="info" class="w3-content w3-padding-large">
         <div class="w3-row">
-          <div class="w3-half w3-container w3-margin-top">
-            <a href="#social" class="w3-btn w3-block w3-border w3-border-blue w3-text-blue w3-montserrat-bold">FAQ</a>
-          </div>
-          <div class="w3-half w3-container w3-margin-top">
+          <!-- <div class="w3-container w3-half w3-margin-top">
+            <a href="#faq" class="w3-btn w3-block w3-border w3-border-blue w3-text-blue w3-montserrat-bold">FAQ</a>
+          </div> -->
+          <div class="w3-container w3-center w3-margin-top">
             <a href="https://neureal.net" target="_blank" class="w3-btn w3-block w3-border w3-border-blue w3-text-blue w3-montserrat-bold">More Info</a>
           </div>
         </div>

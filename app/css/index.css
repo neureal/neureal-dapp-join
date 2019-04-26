@@ -77,10 +77,9 @@ a {
 
 .terms-icons {
 	color: rgb(0, 0, 0);
-	height: 70px;
-	margin: 7.5px;
-	margin-left: 5px;
-	margin-right: 5px;
+	height: 60px;
+	margin-left: 10px;
+	margin-right: 10px;
 }
 
 .terms-max-height {
@@ -97,13 +96,23 @@ a {
   margin-top: 60px;
 }
 
-.banner-rewards {
-	margin-top: 250px;
+.contract-text {
+	letter-spacing: 2px;
+	font-size: 3vw;
 }
 
 .logo-size {
-	margin-top: 25px;
+	margin-top: 2px;
+}
+
+.logo-icon-size {
+	margin-top: 5px;
 	height: 200px;
+}
+
+.card-size {
+	margin-bottom: 15px;
+	height: 180px;
 }
 
 .status {
