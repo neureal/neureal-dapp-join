@@ -17,13 +17,15 @@ function error (err) {
 }
 
 // TODO test for browser compatibility (only Chrome works so far)
-// TODO require Metamask
 window.addEventListener('load', async () => {
+  if (!window.ethereum) return;
+
+  $('#modal_terms #span_required').addClass('w3-hide');
+  $('#modal_terms #span_accept').removeClass('w3-hide');
   $('#modal_terms #btn_accept').click(async function () {
     $('#modal_terms').removeClass('w3-show');
 
-    if (!window.ethereum && !window.web3) return;
-    if (window.ethereum) await EmbarkJS.enableEthereum();
+    await EmbarkJS.enableEthereum();
     // if (window.ethereum) await window.ethereum.enable();
     EmbarkJS.onReady(async (err) => {
       try {

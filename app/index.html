@@ -15,14 +15,29 @@
 
     <div id="modal_terms" class="w3-modal w3-show">
       <div class="w3-modal-content w3-card-4 w3-round-xlarge w3-padding">
-        <div class="w3-panel w3-center w3-montserrat-large">Terms of Service</div>
-        <div class="w3-panel w3-montserrat modal-max-height">
-          <p>By clicking ACCEPT, you confirm that you have read all the below important information, that you understand it and that you agree to these Terms of Service.</p>
-          <p>The Neureal Foundation Donation System and Software is based on experimental blockchain and smart contract technology which carries significant and inherent operational, technological, financial and regulatory risks. It cannot be excluded that, as a result of defects, technical bugs, network forks, intentional attacks of third parties, acts of God, unscheduled maintenance, or other events, the Neureal Foundation Donation System and Software experiences disruption, suspension or termination, and/or the value of Neureal Rewards over time may experience extreme volatility or depreciate in full, as well as ETH/DAI and/or other cryptocurrencies may be lost. Attacks by hackers on the Neureal Foundation Donation System and Software, smart contracts or other software used may have unforeseeable consequences, including loss of Neureal Rewards, ETH/DAI and/or other cryptocurrencies. Also, market conditions may change and thus no market liquidity is guaranteed. All smart contracts are ultimately controlled by the network of miners. There are also other risks associated with use of the Neureal Foundation Donation System and Software, including those that cannot be anticipated and by clicking Accept below you declare and confirm that you understand the risks of using experimental public blockchain technology.</p>
-          <p>The Neureal Foundation Donation System and Software and all of the matters set forth in the Neureal White Paper are new and untested. Use of the Neureal Foundation Donation System and Software requires deep knowledge of smart contract technology and related fields. Its use without proper skills and preparation may result in unintended consequences. Source code of the Neureal Foundation Donation System and Software as well as information on security reviews conducted so far is available here: https://github.com/neureal/neureal-dapp-join.</p>
-          <p>All users of the Neureal Foundation Donation System and Software expressly acknowledge, understand and agree that the user is using the Neureal Foundation Donation System and Software at the user’s sole risk and that the Neureal Foundation Donation System and Software are each provided, used and acquired on an “AS IS” and on an “AS AVAILABLE” basis without representations, warranties, promises or guarantees whatsoever of any kind by any entity and the user shall rely on its own examination and investigation thereof.</p>
+        <header class="w3-panel w3-center w3-montserrat-large">Title Goes Here</header>
+        <div class="w3-row w3-center">
+          <div class="w3-panel w3-quarter"><img class="terms-icons" src="static/app/images/icons/social-github.svg"></div>
+          <div class="w3-panel w3-quarter"><img class="terms-icons" src="static/app/images/icons/social-telegram.png"></div>
+          <div class="w3-panel w3-quarter"><img class="terms-icons" src="static/app/images/icons/social-youtube.svg"></div>
+          <div class="w3-panel w3-quarter"><img class="terms-icons" src="static/app/images/icons/social-linkedin.svg"></div>
         </div>
-        <footer class="w3-panel"><button id="btn_accept" class="w3-btn w3-block w3-border w3-border-blue w3-text-blue w3-montserrat-bold">ACCEPT</button></footer>
+        <span id="span_required">
+          <div class="w3-panel w3-center w3-montserrat-bold">Ethereum wallet and supported browser is required</div>
+          <div class="w3-panel w3-montserrat">
+            <p>Please follow instructions here <a href="https://rinkeby.opensea.io/account" target="_blank" class="w3-margin-left w3-btn w3-border w3-border-blue w3-text-blue w3-montserrat-bold">OpenSea</a></p>
+          </div>
+        </span>
+        <span id="span_accept" class="w3-hide">
+          <div class="w3-panel w3-center w3-montserrat-bold">Terms of Service</div>
+          <div class="w3-panel w3-montserrat terms-max-height">
+            <p>By clicking ACCEPT, you confirm that you have read all the below important information, that you understand it and that you agree to these Terms of Service.</p>
+            <p>The Neureal Foundation Donation System and Software is based on experimental blockchain and smart contract technology which carries significant and inherent operational, technological, financial and regulatory risks. It cannot be excluded that, as a result of defects, technical bugs, network forks, intentional attacks of third parties, acts of God, unscheduled maintenance, or other events, the Neureal Foundation Donation System and Software experiences disruption, suspension or termination, and/or the value of Neureal Rewards over time may experience extreme volatility or depreciate in full, as well as ETH/DAI and/or other cryptocurrencies may be lost. Attacks by hackers on the Neureal Foundation Donation System and Software, smart contracts or other software used may have unforeseeable consequences, including loss of Neureal Rewards, ETH/DAI and/or other cryptocurrencies. Also, market conditions may change and thus no market liquidity is guaranteed. All smart contracts are ultimately controlled by the network of miners. There are also other risks associated with use of the Neureal Foundation Donation System and Software, including those that cannot be anticipated and by clicking Accept below you declare and confirm that you understand the risks of using experimental public blockchain technology.</p>
+            <p>The Neureal Foundation Donation System and Software and all of the matters set forth in the Neureal White Paper are new and untested. Use of the Neureal Foundation Donation System and Software requires deep knowledge of smart contract technology and related fields. Its use without proper skills and preparation may result in unintended consequences. Source code of the Neureal Foundation Donation System and Software as well as information on security reviews conducted so far is available here: https://github.com/neureal/neureal-dapp-join.</p>
+            <p>All users of the Neureal Foundation Donation System and Software expressly acknowledge, understand and agree that the user is using the Neureal Foundation Donation System and Software at the user’s sole risk and that the Neureal Foundation Donation System and Software are each provided, used and acquired on an “AS IS” and on an “AS AVAILABLE” basis without representations, warranties, promises or guarantees whatsoever of any kind by any entity and the user shall rely on its own examination and investigation thereof.</p>
+          </div>
+          <footer class="w3-panel"><button id="btn_accept" class="w3-btn w3-block w3-border w3-border-blue w3-text-blue w3-montserrat-bold">ACCEPT</button></footer>
+        </span>
       </div>
     </div>
 
@@ -36,7 +51,7 @@
       </div>
     </div>
 
-    <span id="span_sale" class="">
+    <span id="span_sale">
       <div id="menu" class="w3-top">
         <div class="w3-bar w3-card w3-white w3-wide">
           <a href="#banner" class="w3-bar-item">
@@ -73,7 +88,7 @@
           </div>
         </div>
         <div class="w3-container w3-text-white w3-center">
-          <div id="contract_address" class="w3-panel w3-montserrat-large">0xD38d7bBFe5a2c9aA7F370f80121e0E055769D893</div>
+          <div id="contract_address" class="w3-panel w3-montserrat-large">0x6e03B6C5eC61fdB0354894A07eFB8C9c950B815D</div>
           <div class="w3-panel w3-montserrat-small">Send ETH or DAI to this address</div>
         </div>
         <div class="w3-container w3-text-white w3-center">

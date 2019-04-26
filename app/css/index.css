@@ -16,36 +16,33 @@ a {
 /* fonts */
 @font-face {
 	font-family: 'Montserrat';
-	font-style: light;
 	font-weight: 300;
-	src: local('Montserrat'), url('../app/images/fonts/Montserrat-Light.ttf') format('ttf');
+	src: local('Montserrat Light'), url('../app/images/fonts/Montserrat-Light.ttf') format('opentype');
 }
 @font-face {
 	font-family: 'Montserrat';
-	font-style: regular;
 	font-weight: 400;
-	src: local('Montserrat'), url('../app/images/fonts/Montserrat-Regular.ttf') format('ttf');
+	src: local('Montserrat'), url('../app/images/fonts/Montserrat-Regular.ttf') format('opentype');
 }
 @font-face {
 	font-family: 'Montserrat';
-	font-style: medium;
 	font-weight: 500;
-	src: local('Montserrat'), url('../app/images/fonts/Montserrat-Medium.ttf') format('ttf');
+	src: local('Montserrat Medium'), url('../app/images/fonts/Montserrat-Medium.ttf') format('opentype');
 }
 
 .w3-montserrat-small {
 	font-family: 'Montserrat', sans-serif;
-	font-style: light;
+	font-weight: 300;
 }
 
 .w3-montserrat {
 	font-family: 'Montserrat', sans-serif;
-	font-style: regular;
+	font-weight: 400;
 }
 
 .w3-montserrat-bold {
 	font-family: 'Montserrat', sans-serif;
-	font-style: medium;
+	font-weight: 500;
 }
 
 .w3-montserrat-large {
@@ -61,7 +58,7 @@ a {
 	padding: 15px;
 	transition: all .1s ease-in-out;
 	font-size: 18px;
-	font-style: medium;
+	font-weight: 500;
 	letter-spacing: 2px;
 	text-transform: uppercase;
 }
@@ -78,8 +75,16 @@ a {
 	/* opacity: 1; */
 }
 
-.modal-max-height {
-	max-height: 300px;
+.terms-icons {
+	color: rgb(0, 0, 0);
+	height: 70px;
+	margin: 7.5px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.terms-max-height {
+	max-height: 100px;
 	overflow-y: auto;
 }
 
