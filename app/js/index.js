@@ -4,10 +4,10 @@ import EmbarkJS from 'Embark/EmbarkJS';
 import NeurealRewards from 'Embark/contracts/NeurealRewards';
 
 const netInfo = { // TODO limit this to main network on deploy
-  1: { desc: 'Main Ethereum Network', explorer: 'https://etherscan.io', opensea: 'https://opensea.io/assets' },
+  1: { desc: 'Main Ethereum Network', explorer: 'https://etherscan.io', opensea: 'https://opensea.io', DAI: '0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359' },
   3: { desc: 'Ropsten Test Network', explorer: 'https://ropsten.etherscan.io', opensea: '' },
-  4: { desc: 'Rinkeby Test Network', explorer: 'https://rinkeby.etherscan.io', opensea: 'https://rinkeby.opensea.io/assets' },
-  42: { desc: 'Kovan Test Network', explorer: 'https://kovan.etherscan.io', opensea: '' },
+  4: { desc: 'Rinkeby Test Network', explorer: 'https://rinkeby.etherscan.io', opensea: 'https://rinkeby.opensea.io' },
+  42: { desc: 'Kovan Test Network', explorer: 'https://kovan.etherscan.io', opensea: '', DAI: '0xC4375B7De8af5a38a93548eb8453a498222C4fF2' },
   1337: { desc: 'Local Network', explorer: '', opensea: '' }
 };
 
@@ -86,14 +86,14 @@ async function send (cards, contract) {
       const min = vals.reduce((min, p) => Number(p._tokenId) < min ? p._tokenId : min, Number(vals[0]._tokenId));
       const max = vals.reduce((max, p) => Number(p._tokenId) > max ? p._tokenId : max, Number(vals[0]._tokenId));
 
-      textcards = `Congrats, you have been allocated`;
-      if (vals.length === 1) textcards += ` card #${vals[0]._tokenId}`;
-      else textcards += ` cards #${min} to #${max}`;
-      if (foils > 0) textcards += `, which includes ${foils} foil cards`;
-      textcards += `.`;
+      const pad = 4;
+      textcards = '';
+      if (vals.length === 1) textcards += `card <b>#${vals[0]._tokenId.toString().padStart(pad, '0')}</b>`;
+      else textcards += `cards <b>#${min.toString().padStart(pad, '0')}</b> to <b>#${max.toString().padStart(pad, '0')}</b>`;
+      if (foils > 0) textcards += `, which includes <b>${foils}</b> foil cards`;
     }
 
-    $('#modal_thankyou #text_cards').text(textcards);
+    $('#modal_thankyou #text_cards').html(textcards);
     $('#modal_thankyou').addClass('w3-show');
   } catch (err) { error(err); }
   $('#modal_progress').removeClass('w3-show');

@@ -9,9 +9,9 @@ const ipfsApiProvider = ipfsOptionsURL('https://ipfs.neureal.io:8443');
 const ipfsLiveGateway = 'https://cloudflare-ipfs.com';
 
 const netInfo = { // TODO limit this to main network on deploy
-  1: { desc: 'Main Ethereum Network', explorer: 'https://etherscan.io', opensea: 'https://opensea.io/assets', DAI: '0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359' },
+  1: { desc: 'Main Ethereum Network', explorer: 'https://etherscan.io', opensea: 'https://opensea.io', DAI: '0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359' },
   3: { desc: 'Ropsten Test Network', explorer: 'https://ropsten.etherscan.io', opensea: '' },
-  4: { desc: 'Rinkeby Test Network', explorer: 'https://rinkeby.etherscan.io', opensea: 'https://rinkeby.opensea.io/assets' },
+  4: { desc: 'Rinkeby Test Network', explorer: 'https://rinkeby.etherscan.io', opensea: 'https://rinkeby.opensea.io' },
   42: { desc: 'Kovan Test Network', explorer: 'https://kovan.etherscan.io', opensea: '', DAI: '0xC4375B7De8af5a38a93548eb8453a498222C4fF2' },
   1337: { desc: 'Local Network', explorer: '', opensea: '' }
 };
@@ -191,7 +191,7 @@ window.addEventListener('load', async () => {
             const uri = ipfsLiveGateway + '/ipfs/' + hash; // 'fs:/ipfs/','/ipfs/','ipfs/' didn't work on OpenSea
             const receipt = await curContract.methods.mintAllocated(id, uri).send();
             const owner = receipt.events['Transfer'].returnValues.to;
-            const item = `<p id="d"><b>NFT</b> | <a href="${uri}" target="_blank">MetaData</a> | <a href="${netInfo[netid].opensea}/${curContract.options.address}/${id}" target="_blank">OpenSea</a>` +
+            const item = `<p id="d"><b>NFT</b> | <a href="${uri}" target="_blank">MetaData</a> | <a href="${netInfo[netid].opensea}/assets/${curContract.options.address}/${id}" target="_blank">OpenSea</a>` +
             ` | <a href="${netInfo[netid].explorer}/token/${curContract.options.address}?a=${id}" target="_blank">History</a> | ID[${id}] Owner[${owner}]</p>`;
             $('#div_mint #span_content').append(item);
             const curId = await curContract.methods.tokenId().call();
@@ -209,7 +209,7 @@ window.addEventListener('load', async () => {
             const id = web3.utils.toBN($('#div_list_id #input_id').val()).toString();
             const owner = await curContract.methods.ownerOf(id).call();
             const uri = await curContract.methods.tokenURI(id).call();
-            const item = `<p id="d"><b>NFT</b> | <a href="${uri}" target="_blank">MetaData</a> | <a href="${netInfo[netid].opensea}/${curContract.options.address}/${id}" target="_blank">OpenSea</a>` +
+            const item = `<p id="d"><b>NFT</b> | <a href="${uri}" target="_blank">MetaData</a> | <a href="${netInfo[netid].opensea}/assets/${curContract.options.address}/${id}" target="_blank">OpenSea</a>` +
             ` | <a href="${netInfo[netid].explorer}/token/${curContract.options.address}?a=${id}" target="_blank">History</a> | ID[${id}] Owner[${owner}]</p>`;
             $('#div_list_id #span_content').append(item);
           } catch (err) { error(err); }
@@ -226,7 +226,7 @@ window.addEventListener('load', async () => {
             for (let i = 0; i < count; i++) {
               const id = await curContract.methods.tokenOfOwnerByIndex(owner, i).call();
               const uri = await curContract.methods.tokenURI(id).call();
-              const item = `<p id="d"><b>NFT</b> | <a href="${uri}" target="_blank">MetaData</a> | <a href="${netInfo[netid].opensea}/${curContract.options.address}/${id}" target="_blank">OpenSea</a>` +
+              const item = `<p id="d"><b>NFT</b> | <a href="${uri}" target="_blank">MetaData</a> | <a href="${netInfo[netid].opensea}/assets/${curContract.options.address}/${id}" target="_blank">OpenSea</a>` +
               ` | <a href="${netInfo[netid].explorer}/token/${curContract.options.address}?a=${id}" target="_blank">History</a> | ID[${id}]</p>`;
               $('#div_list_owner #span_content').append(item);
             }
@@ -243,7 +243,7 @@ window.addEventListener('load', async () => {
               const id = await curContract.methods.tokenByIndex(i).call();
               const owner = await curContract.methods.ownerOf(id).call();
               const uri = await curContract.methods.tokenURI(id).call();
-              const item = `<p id="d"><b>NFT</b> | <a href="${uri}" target="_blank">MetaData</a> | <a href="${netInfo[netid].opensea}/${curContract.options.address}/${id}" target="_blank">OpenSea</a>` +
+              const item = `<p id="d"><b>NFT</b> | <a href="${uri}" target="_blank">MetaData</a> | <a href="${netInfo[netid].opensea}/assets/${curContract.options.address}/${id}" target="_blank">OpenSea</a>` +
               ` | <a href="${netInfo[netid].explorer}/token/${curContract.options.address}?a=${id}" target="_blank">History</a> | ID[${id}] Owner[${owner}]</p>`;
               $('#div_list #span_content').append(item);
             }
