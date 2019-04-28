@@ -56,10 +56,6 @@ window.addEventListener('load', async () => {
       } catch (err) { error(err); }
     });
   });
-
-  $('#modal_thankyou #btn_accept').click(async function () {
-    $('#modal_thankyou').removeClass('w3-show');
-  });
 });
 
 async function send (cards, contract) {
