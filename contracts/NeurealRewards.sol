@@ -28,7 +28,7 @@ contract NeurealRewards is ERC721Full, ERC721MetadataMintable {
     IERC20 public constant ETH_TOKEN_ADDRESS = IERC20(0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE); // Same for all networks
     
     
-    uint256 public constant MAX_SUPPLY = 115; // Maximum tokens possible to mint
+    uint256 public constant MAX_SUPPLY = 115; // TODO set maximum tokens possible to mint
     uint256 public constant COST_DAI = 1 * 10**17; // TODO set DAI price of single card here
 
     address private _owner; // Contract creator
