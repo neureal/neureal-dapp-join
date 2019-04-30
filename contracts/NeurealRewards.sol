@@ -15,10 +15,11 @@ contract NeurealRewards is ERC721Full, ERC721MetadataMintable {
 
     /*** State Variables ***/
     // TODO Set this to the Neureal multisig wallet that will take the ETH from the sale
-    // address payable public constant NEUREAL_ETH_WALLET = 0xb659137d98B9904d39B2c21560E6Cf6ea95b4a12;
-    address payable public constant NEUREAL_ETH_WALLET = 0x3B2c9752B55eab06A66A6117E5D428835b03169d;
+    // address payable public constant NEUREAL_ETH_WALLET = 0xb659137d98B9904d39B2c21560E6Cf6ea95b4a12; // mainnet
+    address payable public constant NEUREAL_ETH_WALLET = 0x3B2c9752B55eab06A66A6117E5D428835b03169d; // testnet
     // TODO Set this to the address of the wallet that has authority to mint new NFTs
-    address private constant MINTING_PROVIDER = 0xf9311383b518Ed6868126353704dD8139f7A30bE;
+    // address private constant MINTING_PROVIDER = 0x5D1189578df87a4Db81eAf48677F291D66AcC23c; // mainnet
+    address private constant MINTING_PROVIDER = 0xf9311383b518Ed6868126353704dD8139f7A30bE; // testnet
 
     // TODO set these to Mainnet on release https://developer.kyber.network/docs/MainnetEnvGuide/
     // IKyberNetworkProxy public constant KYBER_NETWORK_PROXY = IKyberNetworkProxy(0x818E6FECD516Ecc3849DAf6845e3EC868087B755); // Mainnet
