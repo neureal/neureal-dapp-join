@@ -4,11 +4,11 @@ import EmbarkJS from 'Embark/EmbarkJS';
 import NeurealRewards from 'Embark/contracts/NeurealRewards';
 
 const netInfo = { // TODO limit this to main network on deploy
-  1: { desc: 'Main Ethereum Network', explorer: 'https://etherscan.io', opensea: 'https://opensea.io', DAI: '0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359' },
-  3: { desc: 'Ropsten Test Network', explorer: 'https://ropsten.etherscan.io', opensea: '' },
-  4: { desc: 'Rinkeby Test Network', explorer: 'https://rinkeby.etherscan.io', opensea: 'https://rinkeby.opensea.io' },
+  // 1: { desc: 'Main Ethereum Network', explorer: 'https://etherscan.io', opensea: 'https://opensea.io', DAI: '0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359' },
+  // 3: { desc: 'Ropsten Test Network', explorer: 'https://ropsten.etherscan.io', opensea: '' },
+  // 4: { desc: 'Rinkeby Test Network', explorer: 'https://rinkeby.etherscan.io', opensea: 'https://rinkeby.opensea.io' },
   42: { desc: 'Kovan Test Network', explorer: 'https://kovan.etherscan.io', opensea: '', DAI: '0xC4375B7De8af5a38a93548eb8453a498222C4fF2' },
-  1337: { desc: 'Local Network', explorer: '', opensea: '' }
+  // 1337: { desc: 'Local Network', explorer: '', opensea: '' }
 };
 
 function error (err) {
@@ -16,10 +16,13 @@ function error (err) {
   $('#div_error #text_description').text(err);
 }
 
-// TODO test for browser compatibility (only Chrome works so far)
+// TODO test for browser compatibility (only Chrome and Firefox works so far)
 window.addEventListener('load', async () => {
-  if (!window.ethereum) return;
+  $('#div_numina').click(async function () { $('#div_numina_body').toggleClass('w3-hide'); });
+  $('#div_nascent').click(async function () { $('#div_nascent_body').toggleClass('w3-hide'); });
+  $('#div_nina').click(async function () { $('#div_nina_body').toggleClass('w3-hide'); });
 
+  if (!window.ethereum) return;
   $('#modal_terms #span_required').addClass('w3-hide');
   $('#modal_terms #span_accept').removeClass('w3-hide');
   $('#modal_terms #btn_accept').click(async function () {
