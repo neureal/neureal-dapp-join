@@ -2,6 +2,7 @@ pragma solidity 0.5.2;
 
 import "openzeppelin-solidity/contracts/token/ERC721/ERC721Full.sol";
 import "openzeppelin-solidity/contracts/token/ERC721/ERC721MetadataMintable.sol";
+import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 import "./IKyberNetworkProxy.sol";
 
 /**
@@ -9,7 +10,7 @@ import "./IKyberNetworkProxy.sol";
  * Neureal NeurealRewards - Neureal Foundation NFT for rewarding contributors
  * @dev 
  */
-contract NeurealRewards is ERC721Full, ERC721MetadataMintable {
+contract NeurealRewards is ERC721Full, ERC721MetadataMintable, Ownable {
     using SafeMath for uint256;
     // using Address for address;
 
@@ -28,12 +29,8 @@ contract NeurealRewards is ERC721Full, ERC721MetadataMintable {
     IERC20 public constant DAI_TOKEN_ADDRESS = IERC20(0xC4375B7De8af5a38a93548eb8453a498222C4fF2); // Kovan
     IERC20 public constant ETH_TOKEN_ADDRESS = IERC20(0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE); // Same for all networks
     
-    
     uint256 public constant MAX_SUPPLY = 115; // TODO set maximum tokens possible to mint
     uint256 public constant COST_DAI = 1 * 10**17; // TODO set DAI price of single card here
-
-    address private _owner; // Contract creator
-    // function owner() external view returns (address) { return _owner; }
 
     uint256 private _tokenId = 0; // Unique ID of an NFT
     function tokenId() external view returns (uint256) { return _tokenId; }
@@ -41,20 +38,17 @@ contract NeurealRewards is ERC721Full, ERC721MetadataMintable {
     // Mapping from tokenID to allocated address
     mapping (uint256 => address) private _tokenAllocation;
     
-    
     /*** Events ***/
     event TokenPurchase(uint256 _tokenId);
 
     /* Initializes contract */
     // TODO change name before making live
     constructor() ERC721Full("XYZ NFT Series", "XYZT") public {
-        _owner = msg.sender;
         addMinter(MINTING_PROVIDER); // Add allocation minter
         renounceMinter(); // Remove owner as minter for security
     }
     // constructor(address minter, uint256 mintcap, string memory name, string memory symbol) ERC721Full(name, symbol) public {
     //     _maxSupply = mintcap;
-    //     _owner = msg.sender;
     //     addMinter(minter); // Add allocation minter
     // }
 
@@ -126,8 +120,7 @@ contract NeurealRewards is ERC721Full, ERC721MetadataMintable {
     }
 
     /* Withdraw all current available specified ERC20 token in contract */
-    function withdrawToken(IERC20 token) external {
-        require(msg.sender == _owner, ""); // Only owner
+    function withdrawToken(IERC20 token) external onlyOwner {
         uint256 amount = token.balanceOf(address(this));
         require(amount > 0, ""); // Don't call transfer if nothing available
         // emit TokenWithdraw(token, amount, NEUREAL_ETH_WALLET);
@@ -137,9 +130,8 @@ contract NeurealRewards is ERC721Full, ERC721MetadataMintable {
     // event TokenWithdraw(IERC20 token, uint256 amount, address sendTo);
 
     /* Withdraw all current available ETH in contract, this is for failsafe purposes only */
-    function withdrawEther() external {
+    function withdrawEther() external onlyOwner {
         // TODO I have not tested if this works
-        require(msg.sender == _owner, ""); // Only owner
         uint256 amount = address(this).balance;
         require(amount > 0, ""); // Don't call transfer if nothing available
         // emit EtherWithdraw(amount, NEUREAL_ETH_WALLET);

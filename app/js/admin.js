@@ -117,7 +117,8 @@ window.addEventListener('load', async () => {
         const accounts = await web3.eth.getAccounts();
         if (accounts.length < 1) throw new Error('No Ethereum accounts available.');
         const minter = await curContract.methods.isMinter(accounts[0]).call();
-        $('#div_info #text_account').text(accounts[0]); $('#div_info #text_minter').text(minter);
+        const owner = await curContract.methods.isOwner().call();
+        $('#div_info #text_account').text(accounts[0]); $('#div_info #text_minter').text(minter); $('#div_info #text_owner').text(owner);
         const curId = await curContract.methods.tokenId().call();
         const cap = await curContract.methods.MAX_SUPPLY().call();
         $('#div_info #text_curId').text(curId); $('#div_info #text_cap').text(cap);
