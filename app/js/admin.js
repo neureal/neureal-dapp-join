@@ -9,10 +9,10 @@ const ipfsApiProvider = ipfsOptionsURL('https://ipfs.neureal.io:8443');
 const ipfsLiveGateway = 'https://cloudflare-ipfs.com';
 
 const netInfo = { // TODO limit this to main network on deploy
-  // 1: { desc: 'Main Ethereum Network', explorer: 'https://etherscan.io', opensea: 'https://opensea.io', DAI: '0x89d24a6b4ccb1b6faa2625fe562bdd9a23260359' },
+  1: { desc: 'Main Ethereum Network', explorer: 'https://etherscan.io', opensea: 'https://opensea.io', DAI: '0x89d24A6b4CcB1B6fAA2625fE562bDD9a23260359' },
   // 3: { desc: 'Ropsten Test Network', explorer: 'https://ropsten.etherscan.io', opensea: '' },
   // 4: { desc: 'Rinkeby Test Network', explorer: 'https://rinkeby.etherscan.io', opensea: 'https://rinkeby.opensea.io' },
-  42: { desc: 'Kovan Test Network', explorer: 'https://kovan.etherscan.io', opensea: '', DAI: '0xC4375B7De8af5a38a93548eb8453a498222C4fF2' },
+  // 42: { desc: 'Kovan Test Network', explorer: 'https://kovan.etherscan.io', opensea: '', DAI: '0xC4375B7De8af5a38a93548eb8453a498222C4fF2' },
   // 1337: { desc: 'Local Network', explorer: '', opensea: '' }
 };
 
