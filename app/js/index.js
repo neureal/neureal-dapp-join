@@ -50,6 +50,12 @@ window.addEventListener('load', async () => {
           web3: web3
         });
 
+        const curId = await curContract.methods.tokenId().call();
+        $('#text_allocated').text(curId);
+
+        const balDAI = await curContract.methods.getTokenBalance(netInfo[netid].DAI).call();
+        $('#text_raised').text('$' + web3.utils.fromWei(balDAI).split('.')[0]);
+
         $('#btn-send-01').addClass('w3-button');
         $('#btn-send-01').on('click', function () { send(1, curContract); });
         $('#btn-send-02').addClass('w3-button');
