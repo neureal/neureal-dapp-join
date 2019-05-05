@@ -16,34 +16,34 @@ contract NeurealRewards is ERC721Full, ERC721MetadataMintable, Ownable {
 
     /*** State Variables ***/
     // TODO Set this to the Neureal multisig wallet that will take the ETH from the sale
-    // address payable public constant NEUREAL_ETH_WALLET = 0xb659137d98B9904d39B2c21560E6Cf6ea95b4a12; // mainnet
-    address payable public constant NEUREAL_ETH_WALLET = 0x3B2c9752B55eab06A66A6117E5D428835b03169d; // testnet
+    address payable public constant NEUREAL_ETH_WALLET = 0xb659137d98B9904d39B2c21560E6Cf6ea95b4a12; // mainnet
+    // address payable public constant NEUREAL_ETH_WALLET = 0x3B2c9752B55eab06A66A6117E5D428835b03169d; // testnet
     // TODO Set this to the address of the wallet that has authority to mint new NFTs
-    // address private constant MINTING_PROVIDER = 0x5D1189578df87a4Db81eAf48677F291D66AcC23c; // mainnet
-    address private constant MINTING_PROVIDER = 0xf9311383b518Ed6868126353704dD8139f7A30bE; // testnet
+    address private constant MINTING_PROVIDER = 0x5D1189578df87a4Db81eAf48677F291D66AcC23c; // mainnet
+    // address private constant MINTING_PROVIDER = 0xf9311383b518Ed6868126353704dD8139f7A30bE; // testnet
 
     // TODO set these to Mainnet on release https://developer.kyber.network/docs/MainnetEnvGuide/
-    // IKyberNetworkProxy public constant KYBER_NETWORK_PROXY = IKyberNetworkProxy(0x818E6FECD516Ecc3849DAf6845e3EC868087B755); // Mainnet
-    IKyberNetworkProxy public constant KYBER_NETWORK_PROXY = IKyberNetworkProxy(0x692f391bCc85cefCe8C237C01e1f636BbD70EA4D); // Kovan
-    // IERC20 public constant DAI_TOKEN_ADDRESS = IERC20(0x89d24A6b4CcB1B6fAA2625fE562bDD9a23260359); // Mainnet
-    IERC20 public constant DAI_TOKEN_ADDRESS = IERC20(0xC4375B7De8af5a38a93548eb8453a498222C4fF2); // Kovan
+    IKyberNetworkProxy public constant KYBER_NETWORK_PROXY = IKyberNetworkProxy(0x818E6FECD516Ecc3849DAf6845e3EC868087B755); // Mainnet
+    // IKyberNetworkProxy public constant KYBER_NETWORK_PROXY = IKyberNetworkProxy(0x692f391bCc85cefCe8C237C01e1f636BbD70EA4D); // Kovan
+    IERC20 public constant DAI_TOKEN_ADDRESS = IERC20(0x89d24A6b4CcB1B6fAA2625fE562bDD9a23260359); // Mainnet
+    // IERC20 public constant DAI_TOKEN_ADDRESS = IERC20(0xC4375B7De8af5a38a93548eb8453a498222C4fF2); // Kovan
     IERC20 public constant ETH_TOKEN_ADDRESS = IERC20(0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE); // Same for all networks
-
-    uint256 public constant MAX_SUPPLY = 115; // TODO set maximum tokens possible to mint
-    uint256 public constant COST_DAI = 1 * 10**17; // TODO set DAI price of single card here
+    
+    uint256 public constant MAX_SUPPLY = 2000; // TODO set maximum tokens possible to mint
+    uint256 public constant COST_DAI = 10 * 10**18; // TODO set DAI price of single card here
 
     uint256 private _tokenId = 0; // Unique ID of an NFT
     function tokenId() external view returns (uint256) { return _tokenId; }
 
     // Mapping from tokenID to allocated address
     mapping (uint256 => address) private _tokenAllocation;
-
+    
     /*** Events ***/
     event TokenPurchase(uint256 _tokenId);
 
     /* Initializes contract */
     // TODO change name before making live
-    constructor() ERC721Full("XYZ NFT Series", "XYZT") public {
+    constructor() ERC721Full("Neureal Foundation Edition", "NFET") public {
         addMinter(MINTING_PROVIDER); // Add allocation minter
         renounceMinter(); // Remove owner as minter for security
     }
@@ -54,7 +54,7 @@ contract NeurealRewards is ERC721Full, ERC721MetadataMintable, Ownable {
 
     // To mint, call mintWithTokenURI(to, tokenId, tokenURI)
     // to read asset url, call tokenURI(tokenId)
-
+    
     // TODO override tokenURI(tokenId) to combine an ipfs host, stored seperately and changeable, with the unchangeable ipfs url, ie
     // "https://ipfs.infura.io" + "/ipfs/QmcvYFgYKZa4pzSgTYktHKY8m6bSFsVBmYXPTWEMVv9Sne"
     // TODO look at Status plugin to see how to put public dapp on Status on phone
@@ -72,7 +72,7 @@ contract NeurealRewards is ERC721Full, ERC721MetadataMintable, Ownable {
     function getExpectedRate() external view returns(uint256 expectedRate, uint256 slippageRate) {
         return KYBER_NETWORK_PROXY.getExpectedRate(ETH_TOKEN_ADDRESS, DAI_TOKEN_ADDRESS, 1 * 10**18);
     }
-
+    
     /* Token purchase (called whenever someone tries to send ether to this contract) */
     function() external payable {
         require(_tokenId < MAX_SUPPLY, ""); // Contract is finished, everything is minted
